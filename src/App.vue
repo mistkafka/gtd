@@ -1,23 +1,36 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h1>{{ fullname }}</h1>
+    <h3>{{ msg }}</h3>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      fn: 'mist',
+      ln: 'kafka'
+    }
+  },
+  computed: {
+    fullname () {
+      return this.fn + this.ln
+    },
+    ...mapState({
+      msg: 'test'
+    })
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+*
+  padding: 0
+  margin: 0
 </style>
