@@ -1,30 +1,30 @@
 <template>
   <div id="app">
-    <h1>{{ fullname }}</h1>
-    <h3>{{ msg }}</h3>
-    <router-view></router-view>
+    <top-action-bar />
+    <transition name="fade" mode="out-in">
+      <main>
+        <router-view></router-view>
+      </main>
+    </transition>
+    <nav class="bottom-nav">
+      <router-link to="/">Home</router-link>
+      <router-link to="/inbox">Inbox</router-link>
+      <router-link to="/projects">Projects</router-link>
+      <router-link to="/contexts">Contexts</router-link>
+      <router-link to="/agenda">Agenda</router-link>
+      <router-link to="/action">New Inbox</router-link>
+    </nav>
   </div>
 </template>
 
 <script>
 
-import { mapState } from 'vuex'
+import TopActionBar from 'views/TopActionBarView'
 
 export default {
   name: 'app',
-  data () {
-    return {
-      fn: 'mist',
-      ln: 'kafka'
-    }
-  },
-  computed: {
-    fullname () {
-      return this.fn + this.ln
-    },
-    ...mapState({
-      msg: 'test'
-    })
+  components: {
+    TopActionBar
   }
 }
 </script>
@@ -33,4 +33,37 @@ export default {
 *
   padding: 0
   margin: 0
+
+.fade-enter-active, .fade-leave-active
+  transition all .2s ease
+
+.fade-enter, .fade-leave-active
+  opacity 0
+
+.top-action-bar
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  height: 2rem
+
+  display: flex
+  justify-content: space-between
+  align-item: stretch
+  border-bottom: 1px solid black
+
+main
+  margin: 2rem auto
+
+.bottom-nav
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  height: 2rem
+
+  display: flex
+  justify-content: space-between
+  align-item: stretch
+  border-top: 1px solid black
 </style>
