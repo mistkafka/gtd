@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    actions: [],
+    inbox: [],
     projects: [
       {id: 1, title: 'GTD Tracker'},
       {id: 2, title: 'Travel Yunnan'},
@@ -40,12 +42,15 @@ const store = new Vuex.Store({
   },
 
   getters: {
-
+    projectMap: ({projects}) => projects.reduce((map, _) => map.set(_.id, _), new Map()),
+    contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_.id, _), new Map())
   },
-
   mutations: {
     registerTopActions (state, actions) {
       state.topActions = actions
+    },
+    saveAction ({actions}, action) {
+      actions.push(action)
     }
   },
 

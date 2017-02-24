@@ -1,0 +1,21 @@
+<form>
+    <input v-model="action.title" type="text" placehoder="Untitled" /><br>
+
+    <select v-model="action.project">
+        <option value="">None</option>
+        <option v-for="project in projects" :key="project.id" :value="project.id">
+            {{ project.title }}
+        </option>
+    </select><br>
+
+    <select v-model="action.context">
+        <option value="">None</option>
+        <option v-for="context in contexts" :key="context.id" :value="context.id">
+            {{ context.title }}
+        </option>
+    </select><br>
+
+    <input v-model="action.dueDate" type="date" placeholder="None"/><br>
+
+    <input v-model="action.repeat" value="" placehoder="TO BE DONE" readonly /><br>
+</form>

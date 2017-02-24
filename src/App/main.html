@@ -1,0 +1,16 @@
+<div id="app">
+    <top-action-bar />
+    <transition name="fade" mode="out-in">
+        <main>
+            <router-view></router-view>
+        </main>
+    </transition>
+    <nav class="bottom-nav">
+        <router-link to="/">Home</router-link>
+        <router-link to="/inbox">Inbox</router-link>
+        <router-link to="/projects">Projects</router-link>
+        <router-link to="/contexts">Contexts</router-link>
+        <router-link to="/agenda">Agenda</router-link>
+        <router-link to="/action">New Inbox</router-link>
+    </nav>
+</div>

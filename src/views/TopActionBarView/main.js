@@ -1,11 +1,3 @@
-<template>
-  <nav class="top-action-bar">
-    <a href="#" v-for="which in ['left', 'middle', 'right']" v-if="topActions[which]" @click.prevent="action(which)">{{ topActions[which].title }}</a>
-  </nav>
-</template>
-
-<script>
-
 import { mapState } from 'vuex'
 
 export default {
@@ -24,7 +16,3 @@ export default {
     }
   }
 }
-</script>
-
-<style lang="sass">
-</style>
