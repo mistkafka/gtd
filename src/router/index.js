@@ -12,6 +12,7 @@ export default new Router({
   routes: [
     { path: '/', component: WelcomeView },
     { path: '/inbox', component: InboxView },
-    { path: '/action', component: ActionItem }
+    { path: '/action', component: ActionItem },
+    { path: '/action/:id', component: ActionItem }
   ]
 })

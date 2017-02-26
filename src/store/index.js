@@ -49,6 +49,7 @@ const store = new Vuex.Store({
   getters: {
     projectMap: ({projects}) => projects.reduce((map, _) => map.set(_.id, _), new Map()),
     contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_.id, _), new Map()),
+    actionMap: ({actions}) => actions.reduce((map, _) => map.set(_.id, _), new Map()),
     inbox: ({actions}) => actions.filter((_) => !_.project)
   },
   mutations: {
