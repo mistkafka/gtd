@@ -1,3 +1,5 @@
 <ul>
-    <li v-for="action in inbox">{{ action.title }}</li>
+    <li v-for="action in inbox" :key="action.id">
+        <router-link :to="'/action/' + action.id" >{{ action.title }}</router-link>
+    </li>
 </ul>
