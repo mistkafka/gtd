@@ -1,18 +1,15 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'ActionItem',
+  name: 'ProjectItem',
   data () {
-    const actionTpl = {
+    const projectTpl = {
       title: '',
-      project: '',
-      context: '',
-      dueDate: '',
-      repeat: ''
+      id: ''
     }
     return {
       loading: true,
-      actionTpl,
-      action: Object.assign({}, actionTpl)
+      projectTpl,
+      action: Object.assign({}, projectTpl)
     }
   },
   watch: {
@@ -24,46 +21,42 @@ export default {
     editMode () {
       return !!this.action.id
     },
-    ...mapState({
-      projects: 'projects',
-      contexts: 'contexts'
-    }),
     ...mapGetters({
-      actionMap: 'actionMap'
+      projectMap: 'projectMap'
     })
   },
   methods: {
     getData (id) {
       this.loading = true
-      let action = {};
+      let project = {};
       if (id) {
-        action = this.actionMap.get(id)
+        project = this.projectMap.get(id)
       } else {
-        action = Object.assign({}, this.actionTpl)
+        project = Object.assign({}, this.projectTpl)
       }
-      this.action = Object.assign({}, action)
+      this.project = Object.assign({}, project)
 
       this.loading = false
     },
     getSave () {
       let me = this
       return () => {
-        me.$store.commit('saveAction', me.action)
-        me.action = Object.assign({}, me.actionTpl)
+        me.$store.commit('saveProject', me.project)
+        me.project = Object.assign({}, me.projectTpl)
         me.$router.go(-1)
       }
     },
     getSaveAndNew () {
       let me = this
       return () => {
-        me.$store.commit('saveAction', me.action)
-        me.action = Object.assign({}, me.actionTpl)
+        me.$store.commit('saveProject', me.project)
+        me.project = Object.assign({}, me.projectTpl)
       }
     },
     getCancel () {
       let me = this
       return () => {
-        me.action = Object.assign({}, me.actionTpl)
+        me.project = Object.assign({}, me.projectTpl)
         me.$router.go(-1)
       }
     },

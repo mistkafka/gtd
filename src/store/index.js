@@ -6,23 +6,23 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     actions: [
-      {id: 1, title: 'Learn Vue', project: 1},
-      {id: 2, title: 'Wash Cloths', project: 2},
-      {id: 3, title: 'Buy Food'},
-      {id: 4, title: 'Buy Cloths'},
-      {id: 5, title: 'Buy Phone'}
+      {id: '1', title: 'Learn Vue', project: '1'},
+      {id: '2', title: 'Wash Cloths', project: '1'},
+      {id: '3', title: 'Buy Food'},
+      {id: '4', title: 'Buy Cloths'},
+      {id: '5', title: 'Buy Phone'}
     ],
     projects: [
-      {id: 1, title: 'GTD Tracker'},
-      {id: 2, title: 'Travel Yunnan'},
-      {id: 4, title: '2017 Plan'},
-      {id: 6, title: 'Save money'}
+      {id: '1', title: 'GTD Tracker'},
+      {id: '2', title: 'Travel Yunnan'},
+      {id: '4', title: '2017 Plan'},
+      {id: '6', title: 'Save money'}
     ],
     contexts: [
-      {id: 1, title: 'Home'},
-      {id: 2, title: 'Computer'},
-      {id: 3, title: 'Office'},
-      {id: 4, title: 'Phone'}
+      {id: '1', title: 'Home'},
+      {id: '2', title: 'Computer'},
+      {id: '3', title: 'Office'},
+      {id: '4', title: 'Phone'}
     ],
     topActions: {
       left: {
@@ -50,7 +50,8 @@ const store = new Vuex.Store({
     projectMap: ({projects}) => projects.reduce((map, _) => map.set(_.id, _), new Map()),
     contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_.id, _), new Map()),
     actionMap: ({actions}) => actions.reduce((map, _) => map.set(_.id, _), new Map()),
-    inbox: ({actions}) => actions.filter((_) => !_.project)
+    inbox: ({actions}) => actions.filter((_) => !_.project),
+    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id)
   },
   mutations: {
     registerTopActions (state, actions) {
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     },
     saveAction ({actions}, action) {
       actions.push(action)
+    },
+    saveProject ({projects}, project) {
+      projects.push(project)
     }
   },
 

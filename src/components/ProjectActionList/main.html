@@ -1,0 +1,5 @@
+<ul>
+    <li v-for="action in projectActions(id)" :key="action.id">
+        <router-link :to="'/action/' + action.id" >{{ action.title }}</router-link>
+    </li>
+</ul>
