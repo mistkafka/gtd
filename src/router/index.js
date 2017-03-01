@@ -13,13 +13,13 @@ import ProjectActionList from '../components/ProjectActionList'
 export default new Router({
   mode: 'history',
   routes: [
-    { path: '/', component: WelcomeView },
+    { name: 'home', path: '/', component: WelcomeView },
     { path: '/inbox', component: InboxView },
-    { path: '/action/new', component: ActionItem },
+    { name: '+action', path: '/action/new', component: ActionItem },
     { path: '/action/:id', component: ActionItem },
     { path: '/projects', component: Projects },
     { path: '/project/:id', component: Project },
-    { path: '/project/new', component: Project },
+    { name: '+project', path: '/project/new', component: Project },
     { path: '/project/:id/list', component: ProjectActionList }
   ]
 })

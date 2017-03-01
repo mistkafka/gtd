@@ -1,4 +1,4 @@
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'ProjectItem',
   data () {
@@ -14,19 +14,23 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.getData(to.params.id)
+      this.startCycle(to.params.id)
     }
   },
   computed: {
     editMode () {
-      return !!this.action.id
+      return !!this.project.id
     },
     ...mapGetters({
       projectMap: 'projectMap'
     })
   },
   methods: {
-    getData (id) {
+    startCycle (id) {
+      this.load(id)
+      this.registerAction()
+    },
+    load (id) {
       this.loading = true
       let project = {};
       if (id) {
@@ -38,43 +42,41 @@ export default {
 
       this.loading = false
     },
-    getSave () {
-      let me = this
-      return () => {
-        me.$store.commit('saveProject', me.project)
-        me.project = Object.assign({}, me.projectTpl)
-        me.$router.go(-1)
+    registerAction () {
+      let actions = {}
+      if (this.editMode) {
+        actions = {
+          left: { title: 'Back', action: this.back },
+          middle: { title: 'Project', action: null },
+          right: { title: '', action: null }
+        }
+      } else {
+        actions = {
+          left: { title: 'Cancel', action: this.cancle },
+          middle: { title: 'New Project', action: null },
+          right: { title: 'Save', action: this.save }
+        }
       }
+
+      this.registerTopActions(actions)
     },
-    getSaveAndNew () {
-      let me = this
-      return () => {
-        me.$store.commit('saveProject', me.project)
-        me.project = Object.assign({}, me.projectTpl)
-      }
+    save () {
+      this.$store.commit('saveProject', this.project)
+      this.project = Object.assign({}, this.projectTpl)
+      this.$router.go(-1)
     },
-    getCancel () {
-      let me = this
-      return () => {
-        me.project = Object.assign({}, me.projectTpl)
-        me.$router.go(-1)
-      }
+    cancle () {
+      this.project = Object.assign({}, this.projectTpl)
+      this.$router.go(-1)
+    },
+    back () {
+      this.$router.go(-1)
     },
     ...mapMutations(['registerTopActions'])
   },
 
   // hooks
   beforeMount () {
-    this.getData(this.$route.params.id)
-  },
-  mounted () {
-    let actions = {
-      left: { title: 'Cancel', action: this.getCancel() },
-      middle: { title: 'Save+', action: this.getSaveAndNew() },
-      right: { title: 'Save', action: this.getSave() }
-    }
-    if (!this.editMode) {
-      this.registerTopActions(actions)
-    }
+    this.startCycle(this.$route.params.id)
   }
 }
