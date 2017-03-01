@@ -9,26 +9,7 @@ const store = new Vuex.Store({
     actions: [],
     projects: [],
     contexts: [],
-    topActions: {
-      left: {
-        title: 'Left',
-        action: function () {
-          console.log('Left action clicked')
-        }
-      },
-      middle: {
-        title: 'Middle',
-        action: function () {
-          console.log('Middle action clicked')
-        }
-      },
-      right: {
-        title: 'right',
-        action: function () {
-          console.log('Middle action clicked')
-        }
-      }
-    }
+    topActions: {}
   },
 
   getters: {

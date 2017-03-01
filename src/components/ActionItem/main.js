@@ -17,7 +17,7 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.getData(to.params.id)
+      this.startCycle(to.params.id)
     }
   },
   computed: {
@@ -33,7 +33,11 @@ export default {
     })
   },
   methods: {
-    getData (id) {
+    startCycle (id) {
+      this.load(id)
+      this.registerAction()
+    },
+    load (id) {
       this.loading = true
       let action = {};
       if (id) {
@@ -45,43 +49,45 @@ export default {
 
       this.loading = false
     },
-    getSave () {
-      let me = this
-      return () => {
-        me.$store.commit('saveAction', me.action)
-        me.action = Object.assign({}, me.actionTpl)
-        me.$router.go(-1)
+    registerAction () {
+      let actions = {}
+      if (this.editMode) {
+        actions = {
+          left: { title: 'Back', action: this.back },
+          middle: { title: 'Action', action: null },
+          right: { title: '', action: null }
+        }
+      } else {
+        actions = {
+          left: { title: 'Cancel', action: this.cancle },
+          middle: { title: 'Save+', action: this.saveAndNew },
+          right: { title: 'Save', action: this.save }
+        }
       }
+
+      this.registerTopActions(actions)
     },
-    getSaveAndNew () {
-      let me = this
-      return () => {
-        me.$store.commit('saveAction', me.action)
-        me.action = Object.assign({}, me.actionTpl)
-      }
+    save () {
+      this.$store.commit('saveAction', this.action)
+      this.action = Object.assign({}, this.actionTpl)
+      this.$router.go(-1)
     },
-    getCancel () {
-      let me = this
-      return () => {
-        me.action = Object.assign({}, me.actionTpl)
-        me.$router.go(-1)
-      }
+    back () {
+      this.$router.go(-1)
+    },
+    saveAndNew () {
+      this.$store.commit('saveAction', this.action)
+      this.action = Object.assign({}, this.actionTpl)
+    },
+    cancle () {
+      this.action = Object.assign({}, this.actionTpl)
+      this.$router.go(-1)
     },
     ...mapMutations(['registerTopActions'])
   },
 
   // hooks
   beforeMount () {
-    this.getData(this.$route.params.id)
-  },
-  mounted () {
-    let actions = {
-      left: { title: 'Cancel', action: this.getCancel() },
-      middle: { title: 'Save+', action: this.getSaveAndNew() },
-      right: { title: 'Save', action: this.getSave() }
-    }
-    if (!this.editMode) {
-      this.registerTopActions(actions)
-    }
+    this.startCycle(this.$route.params.id)
   }
 }
