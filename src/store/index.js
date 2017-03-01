@@ -1,29 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as helper from './helper'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    actions: [
-      {id: '1', title: 'Learn Vue', project: '1'},
-      {id: '2', title: 'Wash Cloths', project: '1'},
-      {id: '3', title: 'Buy Food'},
-      {id: '4', title: 'Buy Cloths'},
-      {id: '5', title: 'Buy Phone'}
-    ],
-    projects: [
-      {id: '1', title: 'GTD Tracker'},
-      {id: '2', title: 'Travel Yunnan'},
-      {id: '4', title: '2017 Plan'},
-      {id: '6', title: 'Save money'}
-    ],
-    contexts: [
-      {id: '1', title: 'Home'},
-      {id: '2', title: 'Computer'},
-      {id: '3', title: 'Office'},
-      {id: '4', title: 'Phone'}
-    ],
+    actions: [],
+    projects: [],
+    contexts: [],
     topActions: {
       left: {
         title: 'Left',
@@ -58,10 +43,27 @@ const store = new Vuex.Store({
       state.topActions = actions
     },
     saveAction ({actions}, action) {
+      if (!action.id) {
+        action.id = helper.generateUUID()
+      }
       actions.push(action)
+      helper.saveToLocal('actions', actions)
     },
     saveProject ({projects}, project) {
+      if (!project.id) {
+        project.id = helper.generateUUID()
+      }
       projects.push(project)
+      helper.saveToLocal('projects', projects)
+    },
+    GET_LOCAL_STATE: (state) => {
+      [
+        'actions',
+        'projects',
+        'context'
+      ].forEach((_) => {
+        state[_] = JSON.parse(window.localStorage.getItem(_)) || []
+      })
     }
   },
 
