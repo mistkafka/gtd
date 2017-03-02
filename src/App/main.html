@@ -5,12 +5,7 @@
             <router-view></router-view>
         </main>
     </transition>
-    <nav class="bottom-nav">
-        <router-link to="/">Home</router-link>
-        <router-link to="/inbox">Inbox</router-link>
-        <router-link to="/projects">Projects</router-link>
-        <!-- <router-link to="/contexts">Contexts</router-link> -->
-        <!-- <router-link to="/agenda">Agenda</router-link> -->
-        <router-link to="/action/new">+Inbox</router-link>
-    </nav>
+    <div class="new-action">
+        <router-link to="/action/new">+</router-link>
+    </div>
 </div>

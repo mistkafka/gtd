@@ -1,3 +1,2 @@
-<template>
-  <h1>Welcome to GTD Tracker</h1>
-</template>
+<template src="./main.html"></template>
+<script src="./main.js"></script>
