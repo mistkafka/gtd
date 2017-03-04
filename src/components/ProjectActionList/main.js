@@ -4,12 +4,14 @@ export default {
   name: 'ProjectActionList',
   data () {
     return {
-      id: this.$route.params.id
+      loading: true,
+      project: {}
     }
   },
   computed: {
     ...mapGetters({
-      projectActions: 'projectActions'
+      projectActions: 'projectActions',
+      projectMap: 'projectMap'
     })
   },
   methods: {
@@ -30,14 +32,30 @@ export default {
       }
 
       this.registerTopActions(actions)
-    }
+    },
+    startCycle (id) {
+      this.load(id)
+      this.registerAction()
+    },
+    load (id) {
+      this.loading = true
+      let project = {};
+      if (id) {
+        project = this.projectMap.get(id)
+      } else {
+        project = Object.assign({}, this.projectTpl)
+      }
+      this.project = Object.assign({}, project)
+
+      this.loading = false
+    },
   },
   watch: {
     '$route': function(to, from) {
-      this.id = from.params.id
+      this.startCycle(to.params.id)
     }
   },
   beforeMount () {
-    this.registerAction()
+    this.startCycle(this.$route.params.id)
   }
 }

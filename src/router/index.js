@@ -18,8 +18,8 @@ export default new Router({
     { name: '+action', path: '/action/new', component: ActionItem },
     { path: '/action/:id', component: ActionItem },
     { path: '/projects', component: Projects },
-    { path: '/project/:id', component: Project },
     { name: '+project', path: '/project/new', component: Project },
+    { path: '/project/:id', component: Project },
     { path: '/project/:id/list', component: ProjectActionList }
   ]
 })
