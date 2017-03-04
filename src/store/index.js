@@ -23,19 +23,12 @@ const store = new Vuex.Store({
     registerTopActions (state, actions) {
       state.topActions = actions
     },
-    saveAction ({actions}, action) {
-      if (!action.id) {
-        action.id = helper.generateUUID()
+    save (state, item) {
+      if (!item.id) {
+        item.id = helper.generateUUID()
       }
-      actions.push(action)
-      helper.saveToLocal('actions', actions)
-    },
-    saveProject ({projects}, project) {
-      if (!project.id) {
-        project.id = helper.generateUUID()
-      }
-      projects.push(project)
-      helper.saveToLocal('projects', projects)
+      state[item.model].push(item)
+      helper.saveToLocal(item.model, state[item.model])
     },
     GET_LOCAL_STATE: (state) => {
       [

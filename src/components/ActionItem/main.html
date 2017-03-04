@@ -4,6 +4,10 @@
     </div>
 
     <div class="form-group">
+        <textarea v-model="action.note" placeholder="note"></textarea>
+    </div>
+
+    <div class="form-group">
         <label>Project</label>
         <select v-model="action.project">
             <option value="">None</option>
@@ -11,6 +15,18 @@
                 {{ project.title }}
             </option>
         </select>
+    </div>
+
+    <div class="form-group">
+        <label>Type</label>
+        <select v-model="action.type">
+            <option v-for="type in actionTypes" :value="type">{{ type }}</option>
+        </select>
+    </div>
+
+    <div v-if="action.type !== 'Todo/Done'" class="form-group">
+        <label>Target</label>
+        <input v-model="action.target" type="number" :placeholder="targetHelpText"/>
     </div>
 
     <div class="form-group">

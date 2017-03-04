@@ -1,18 +1,38 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
+
+const targetHelpTextMap = {
+  'Times': 'how many times?',
+  'Accumulate': 'accumulate how much?',
+  'Store': 'store how much?'
+}
+
+const MODEL_NAME = 'actions'
+
 export default {
   name: 'ActionItem',
   data () {
     const actionTpl = {
+      model: MODEL_NAME,
       title: '',
+      note: '',
       project: '',
+      type: 'Todo/Done',
       context: '',
       dueDate: '',
-      repeat: ''
+      repeat: '',
+      target: '',
+      count: [],
+      schedules: [],
+      logs: [],
+
+      addedDate: '',
+      lastUpdateDate: ''
     }
     return {
       loading: true,
       actionTpl,
-      action: Object.assign({}, actionTpl)
+      action: Object.assign({}, actionTpl),
+      actionTypes: ['Todo/Done', 'Times', 'Accumulate', 'Store']
     }
   },
   watch: {
@@ -23,6 +43,9 @@ export default {
   computed: {
     editMode () {
       return !!this.action.id
+    },
+    targetHelpText () {
+      return targetHelpTextMap[this.action.type];
     },
     ...mapState({
       projects: 'projects',
@@ -68,7 +91,7 @@ export default {
       this.registerTopActions(actions)
     },
     save () {
-      this.$store.commit('saveAction', this.action)
+      this.$store.commit('save', this.action)
       this.action = Object.assign({}, this.actionTpl)
       this.$router.go(-1)
     },

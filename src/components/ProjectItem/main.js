@@ -1,15 +1,25 @@
 import { mapGetters, mapMutations } from 'vuex'
+
+const MODEL_NAME = 'projects'
+
 export default {
   name: 'ProjectItem',
   data () {
     const projectTpl = {
+      model: MODEL_NAME,
       title: '',
+      note: '',
+      status: 'Active',
+      context: '',
+      dueDate: '',
+      logs: [],
       id: ''
     }
     return {
       loading: true,
       projectTpl,
-      action: Object.assign({}, projectTpl)
+      project: Object.assign({}, projectTpl),
+      projectStatus: ['Active', 'On Hold', 'Completed', 'Dropped']
     }
   },
   watch: {
@@ -61,7 +71,7 @@ export default {
       this.registerTopActions(actions)
     },
     save () {
-      this.$store.commit('saveProject', this.project)
+      this.$store.commit('save', this.project)
       this.project = Object.assign({}, this.projectTpl)
       this.$router.go(-1)
     },
