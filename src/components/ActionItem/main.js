@@ -68,7 +68,7 @@ export default {
       } else {
         action = Object.assign({}, this.actionTpl)
       }
-      this.action = Object.assign({}, action)
+      this.action = action
 
       this.loading = false
     },

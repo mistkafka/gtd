@@ -48,7 +48,7 @@ export default {
       } else {
         project = Object.assign({}, this.projectTpl)
       }
-      this.project = Object.assign({}, project)
+      this.project = project
 
       this.loading = false
     },

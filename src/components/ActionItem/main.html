@@ -1,10 +1,10 @@
 <form class="padding-normal" v-if="!loading">
     <div class="form-group">
-        <input v-model="action.title" type="text" placeholder="Untitled" />
+        <input v-model.lazy="action.title" type="text" placeholder="Untitled" />
     </div>
 
     <div class="form-group">
-        <textarea v-model="action.note" placeholder="note"></textarea>
+        <textarea v-model.lazy="action.note" placeholder="note"></textarea>
     </div>
 
     <div class="form-group">
@@ -26,7 +26,7 @@
 
     <div v-if="action.type !== 'Todo/Done'" class="form-group">
         <label>Target</label>
-        <input v-model="action.target" type="number" :placeholder="targetHelpText"/>
+        <input v-model.lazy="action.target" type="number" :placeholder="targetHelpText"/>
     </div>
 
     <!-- <div class="form-group">

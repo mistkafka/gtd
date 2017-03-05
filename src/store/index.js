@@ -28,19 +28,23 @@ const store = new Vuex.Store({
         item.id = helper.generateUUID()
       }
       state[item.model].push(item)
-      helper.saveToLocal(item.model, state[item.model])
     },
-    GET_LOCAL_STATE: (state) => {
+    GET_STATE_FROM_LOCALSTORAGE: (state) => {
       [
         'actions',
         'projects',
-        'context'
+        'contexts'
       ].forEach((_) => {
         state[_] = JSON.parse(window.localStorage.getItem(_)) || []
       })
+    },
+    SAVE_STATE_TO_LOCALSTORAGE: (state, models = ['projects', 'actions']) => {
+      if (typeof models === 'string') {
+        models = [models]
+      }
+      models.forEach((model) => window.localStorage.setItem(model, JSON.stringify(state[model])))
     }
   },
-
   actions: {
 
   }

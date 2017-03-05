@@ -13,6 +13,6 @@ new Vue({
   template: '<App/>',
   components: { App },
   beforeCreate () {
-    this.$store.commit('GET_LOCAL_STATE')
+    this.$store.commit('GET_STATE_FROM_LOCALSTORAGE')
   }
 })
