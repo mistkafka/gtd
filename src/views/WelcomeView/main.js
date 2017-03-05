@@ -4,7 +4,7 @@ export default {
   name: 'WelcomeView',
   data () {
     return {
-      links: ['inbox', 'projects', 'contenxts', 'agenda']
+      links: ['inbox', 'projects']
     }
   },
   methods: {
