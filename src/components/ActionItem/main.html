@@ -7,28 +7,6 @@
         <textarea v-model.lazy="action.note" placeholder="note"></textarea>
     </div>
 
-    <div class="form-group">
-        <label>Project</label>
-        <select v-model="action.project">
-            <option value="">None</option>
-            <option v-for="project in projects" :key="project.id" :value="project.id">
-                {{ project.title }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Type</label>
-        <select v-model="action.type">
-            <option v-for="type in actionTypes" :value="type">{{ type }}</option>
-        </select>
-    </div>
-
-    <div v-if="action.type !== 'Todo/Done'" class="form-group">
-        <label>Target</label>
-        <input v-model.lazy="action.target" type="number" :placeholder="targetHelpText"/>
-    </div>
-
     <!-- <div class="form-group">
         <label>Context</label>
         <select v-model="action.context">
@@ -40,12 +18,48 @@
     </div> -->
 
     <div class="form-group">
+        <label>Type</label>
+        <select v-model="action.type">
+            <option v-for="type in actionTypes" :value="type">{{ type }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Project</label>
+        <select v-model="action.project">
+            <option value="">None</option>
+            <option v-for="project in projects" :key="project.id" :value="project.id">
+                {{ project.title }}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label>Due</label>
         <input v-model="action.dueDate" type="date" placeholder="None"/>
     </div>
 
-    <div class="form-group">
+    <div v-if="action.type == 'Todo/Done'" class="form-group">
+        <label>Done</label>
+        <input v-model="done" type="checkbox" />
+    </div>
+    <div v-if="action.type == 'Times'" class="form-group">
+        <label>Times: {{ timesProcess }}</label>
+        <input type="submit" @click.prevent="addTimes()" value="+"/>
+    </div>
+    <div v-if="action.type == 'Accumulate' || action.type == 'Store'" class="form-group">
+        <label>Process: {{ noncountableLikeProcess }}</label>
+        <input type="number" v-model="noncountableLikeItemValue" @keypress.enter.prevent="addNoncountableLikeItem()"/>
+    </div>
+
+    <div v-if="action.type !== 'Todo/Done'" class="form-group">
+        <label>Target</label>
+        <input v-model.lazy="action.target" type="number" :placeholder="targetHelpText"/>
+    </div>
+
+    <div v-if="action.type != 'Times'" class="form-group">
         <label>Repeat</label>
         <input v-model="action.repeat" value="" placehoder="TO BE DONE" readonly />
     </div>
+    <input v-model="actionDone" type="text" style="display: none;"/>
 </form>

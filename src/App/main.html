@@ -1,10 +1,10 @@
 <div id="app">
     <top-action-bar />
-    <transition name="fade" mode="out-in">
-        <main>
+    <main>
+        <transition name="fade" mode="out-in">
             <router-view></router-view>
-        </main>
-    </transition>
+        </transition>
+    </main>
     <div class="new-action">
         <router-link to="/action/new">+</router-link>
     </div>
