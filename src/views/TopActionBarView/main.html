@@ -1,3 +1,14 @@
 <nav class="top-action-bar">
-    <span v-for="which in ['left', 'middle', 'right']" v-if="topActions[which]" @click.prevent="action(which)">{{ topActions[which].title }}</span>
+    <x-header
+        :left-options="topActions.left"
+        :title="topActions.middle.title"
+        :right-options="topActions.right"
+        @on-click-back="action('left')"
+        @on-click-title="action('middle')"
+    >
+        {{ topActions.middle.title }}
+
+        <a v-if="topActions.left.showBack === false" slot="left" @click="action('left')">{{ topActions.left.backText }}</a>
+        <a slot="right" @click="action('right')">{{ topActions.right.title }}</a>
+    </x-header>
 </nav>

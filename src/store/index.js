@@ -1,15 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as helper from './helper'
+import vuexI18n from 'vuex-i18n'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  modules: {
+    i18n: vuexI18n.store
+  },
   state: {
     actions: [],
     projects: [],
     contexts: [],
-    topActions: {}
+    topActions: {
+      left: {},
+      middle: {},
+      right: {}
+    }
   },
 
   getters: {
@@ -24,6 +32,7 @@ const store = new Vuex.Store({
       state.topActions = actions
     },
     save (state, item) {
+      debugger
       if (!item.id) {
         item.id = helper.generateUUID()
       }
@@ -49,5 +58,7 @@ const store = new Vuex.Store({
 
   }
 })
+
+Vue.use(vuexI18n.plugin, store)
 
 export default store

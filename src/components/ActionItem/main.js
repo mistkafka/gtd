@@ -1,4 +1,23 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
+import {
+  Group,
+  XInput,
+  XButton,
+  XTextarea,
+  XNumber,
+  XCircle,
+  XDialog,
+  Checker,
+  Selector,
+  Datetime,
+  Tab,
+  TabItem,
+  Swiper,
+  SwiperItem,
+  Divider,
+  Flexbox,
+  FlexboxItem
+} from 'vux'
 
 const targetHelpTextMap = {
   'Times': 'how many times?',
@@ -10,11 +29,30 @@ const MODEL_NAME = 'actions'
 
 export default {
   name: 'ActionItem',
+  components: {
+    Group,
+    XInput,
+    XTextarea,
+    XNumber,
+    XButton,
+    XCircle,
+    XDialog,
+    Checker,
+    Selector,
+    Datetime,
+    Tab,
+    TabItem,
+    Swiper,
+    SwiperItem,
+    Divider,
+    Flexbox,
+    FlexboxItem
+  },
   data () {
     const actionTpl = {
       model: MODEL_NAME,
       title: '',
-      note: '',
+      description: '',
       project: '',
       type: 'Todo/Done',
       context: '',
@@ -30,19 +68,15 @@ export default {
       actionTpl,
       action: Object.assign({}, actionTpl),
       actionTypes: ['Todo/Done', 'Times', 'Accumulate', 'Store'],
-      noncountableLikeItemValue: ''
+      noncountableLikeItemValue: 0,
+      log: '',
+      tabSelected: 0,
+      dialogShow: false
     }
   },
   watch: {
     '$route' (to, from) {
       this.startCycle(to.params.id)
-    },
-    'action.type' (to, from) {
-      if (to === 'Todo/Done') {
-        this.action.target = 1
-      } else {
-        this.action.target = 0
-      }
     }
   },
   computed: {
@@ -53,6 +87,13 @@ export default {
     ...mapGetters({
       actionMap: 'actionMap'
     }),
+    projectsOpt () {
+      let opt = [{key: '', value: 'None'}]
+
+      this.projects.forEach((_) => opt.push({key: _.id, value: _.title}))
+
+      return opt
+    },
     editMode () {
       return !!this.action.id
     },
@@ -81,6 +122,14 @@ export default {
         processItems.push(item)
       }
     },
+    target: {
+      get () {
+        return this.action.target
+      },
+      set (to, from) {
+        this.action.target = Number(to)
+      }
+    },
     timesProcess () {
       return `${this.action.processItems.length}/${this.action.target}`
     },
@@ -93,7 +142,8 @@ export default {
         return sum
       }, 0)
 
-      return `${sum}/${this.action.target }`
+      let rslt = Number.parseInt(sum / this.action.target * 100);
+      return rslt;
     },
     noncountableLikeDone () {
       let sum = this.action.processItems.reduce((sum, item) => {
@@ -143,14 +193,14 @@ export default {
       let actions = {}
       if (this.editMode) {
         actions = {
-          left: { title: 'Back', action: this.back },
+          left: { backText: 'Back', action: this.back },
           middle: { title: 'Action', action: null },
           right: { title: '', action: null }
         }
       } else {
         actions = {
-          left: { title: 'Cancel', action: this.cancle },
-          middle: { title: 'Save+', action: this.saveAndNew },
+          left: { backText: 'Cancel', action: this.cancle },
+          middle: { title: 'New Action'},
           right: { title: 'Save', action: this.save }
         }
       }
@@ -182,13 +232,21 @@ export default {
     },
     addNoncountableLikeItem () {
       let item = {
-        value: this.noncountableLikeItemValue,
+        value: Number(this.noncountableLikeItemValue),
         date: new Date(),
-        log: ''
+        log: this.log
       }
       this.action.processItems.push(item)
 
-      this.noncountableLikeItemValue = ''
+      this.noncountableLikeItemValue = 0
+      this.log = ''
+      this.dialogShow = false
+    },
+    decreaseStore () {
+      this.dialogShow = true;
+    },
+    increaseStore () {
+      this.dialogShow = true;
     }
   },
 

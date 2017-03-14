@@ -62,7 +62,7 @@ export default {
         }
       } else {
         actions = {
-          left: { title: 'Cancel', action: this.cancle },
+          left: { backText: 'Cancel'},
           middle: { title: 'New Project', action: null },
           right: { title: 'Save', action: this.save }
         }
