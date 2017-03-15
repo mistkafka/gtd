@@ -32,7 +32,6 @@ const store = new Vuex.Store({
       state.topActions = actions
     },
     save (state, item) {
-      debugger
       if (!item.id) {
         item.id = helper.generateUUID()
       }

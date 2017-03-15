@@ -16,7 +16,11 @@ import {
   SwiperItem,
   Divider,
   Flexbox,
-  FlexboxItem
+  FlexboxItem,
+  Timeline,
+  TimelineItem,
+  Scroller,
+  dateFormat
 } from 'vux'
 
 const targetHelpTextMap = {
@@ -46,7 +50,10 @@ export default {
     SwiperItem,
     Divider,
     Flexbox,
-    FlexboxItem
+    FlexboxItem,
+    Timeline,
+    TimelineItem,
+    Scroller
   },
   data () {
     const actionTpl = {
@@ -112,7 +119,7 @@ export default {
         let processItems = this.action.processItems
         let item = {
           done: true,
-          date: new Date(),
+          date: (new Date()).toString(),
           log: ''         // TODO:
         }
         if (this.done) {
@@ -168,6 +175,25 @@ export default {
       this.action.completed = rslt
 
       return rslt
+    },
+    noncountableLikeItemPlacheholder () {
+      if (this.action.type === 'Accumulate') {
+        return 'positive only. ex: 128.20'
+      } else if (this.action.type === 'Store') {
+        return 'allow negative. ex: -128.20'
+      }
+    },
+    timeline () {
+      return this.action.processItems
+        .map(_ => {
+          _.date = new Date(_.date)
+          return _
+        })
+        .sort((a, b) => a.date < b.date)
+        .map(_ => {
+          _.date = dateFormat(new Date(_.date), 'YYYY-MM-DD HH:mm:ss')
+          return _
+        });
     }
   },
   methods: {
@@ -224,15 +250,19 @@ export default {
     },
     addTimes () {
       let item = {
-        date: new Date(),
+        date: (new Date()).toString(),
         log: '' // TODO
       }
       this.action.processItems.push(item)
     },
     addNoncountableLikeItem () {
+      if (!this.validateNoncountableLikeItemValue().valid) {
+        return
+      }
+
       let item = {
         value: Number(this.noncountableLikeItemValue),
-        date: new Date(),
+        date: (new Date()).toString(),
         log: this.log
       }
       this.action.processItems.push(item)
@@ -246,6 +276,25 @@ export default {
     },
     increaseStore () {
       this.dialogShow = true;
+    },
+    validateNoncountableLikeItemValue () {
+      if (!this.noncountableLikeItemValue) {
+        return {
+          valid: false,
+          msg: 'Required'
+        }
+      }
+
+      if (this.action.type === 'Accumulate' && this.noncountableLikeItemValue < 0) {
+        return {
+          valid: false,
+          msg: 'positive only!'
+        }
+      }
+
+      return {
+        valid: true
+      }
     }
   },
 

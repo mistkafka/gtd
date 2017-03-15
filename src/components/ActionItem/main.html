@@ -1,73 +1,87 @@
-<form class="padding-normal" v-if="!loading">
-    <group label-align="left" label-width="4em" label-margin-right="2em">
-        <x-textarea v-model.lazy="action.title" placeholder="Untitled" :show-counter="false" :rows="1" ref="autosize"></x-textarea>
-    </group>
-
-    <x-dialog v-model="dialogShow" :hide-on-blur="true">
-        <group>
-            <x-input type="number" v-model="noncountableLikeItemValue" placeholder="eg. 32.50"></x-input>
-            <x-textarea v-model="log" :height="200" placeholder="Note"></x-textarea>
+<div v-if="!loading">
+    <form>
+        <group label-align="left" label-width="4em" label-margin-right="2em">
+            <x-textarea v-model.lazy="action.title" placeholder="Untitled" :show-counter="false" :rows="1" ref="autosize"></x-textarea>
         </group>
-        <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addNoncountableLikeItem">Submit</x-button>
-    </x-dialog>
 
-    <tab :line-width=2.5 active-color='#3cc51f' v-model="tabSelected">
-        <tab-item class="vux-center" :key="0">Process</tab-item>
-        <tab-item class="vux-center" :key="1">Information</tab-item>
-        <tab-item class="vux-center" :key="2">Description</tab-item>
-    </tab>
-    <swiper v-model="tabSelected" height="300px" :show-dots="false">
-        <swiper-item :key="0">
-            <group label-align="left" label-width="4em" label-margin-right="2em">
-                <div v-if="action.type == 'Todo/Done'" class="form-group">
-                    <label>Done</label>
-                    <input v-model="done" type="checkbox" />
-                </div>
-                <div v-if="action.type == 'Times'" class="form-group">
-                    <label>Times: {{ timesProcess }}</label>
-                    <input type="submit" @click.prevent="addTimes()" value="+"/>
-                </div>
+        <x-dialog v-model="dialogShow" :hide-on-blur="true">
+            <group>
+                <x-input type="number" v-model.lazy="noncountableLikeItemValue" :placeholder="noncountableLikeItemPlacheholder" :is-type="validateNoncountableLikeItemValue"></x-input>
+                <x-textarea v-model="log" :height="200" placeholder="Note(option)"></x-textarea>
+            </group>
+            <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addNoncountableLikeItem">Submit</x-button>
+        </x-dialog>
 
-                <!-- <div v-if="action.type == 'Accumulate' || action.type == 'Store'" class="form-group">
-                     <label>Process: {{ noncountableLikeProcess }}</label>
-                     <input type="number" v-model="noncountableLikeItemValue" @keypress.enter.prevent="addNoncountableLikeItem()"/>
-                     </div> -->
-                <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
-                    <div style="width: 100px; height: 100px; margin: 0 auto;">
-                        <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
-                            <span>{{ noncountableLikeProcessPercent }}%</span>
-                        </x-circle>
+        <tab :line-width=2.5 active-color='#3cc51f' v-model="tabSelected">
+            <tab-item class="vux-center" :key="0">Process</tab-item>
+            <tab-item class="vux-center" :key="1">Information</tab-item>
+            <tab-item class="vux-center" :key="2">Description</tab-item>
+        </tab>
+        <swiper v-model="tabSelected" height="200px" :show-dots="false">
+            <swiper-item :key="0">
+                <group label-align="left" label-width="4em" label-margin-right="2em">
+                    <div v-if="action.type == 'Todo/Done'" class="form-group">
+                        <label>Done</label>
+                        <input v-model="done" type="checkbox" />
                     </div>
-                    <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
-                    <divider>Timeline</divider>
-                    <flexbox style="margin-top: 3rem;">
-                        <flexbox-item>
-                            <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
-                        </flexbox-item>
-                        <flexbox-item>
-                            <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
-                        </flexbox-item>
-                    </flexbox>
-                </template>
-            </group>
-        </swiper-item>
+                    <div v-if="action.type == 'Times'" class="form-group">
+                        <label>Times: {{ timesProcess }}</label>
+                        <input type="submit" @click.prevent="addTimes()" value="+"/>
+                    </div>
 
-        <swiper-item :key="1">
-            <group label-align="left" label-width="4em" label-margin-right="2em">
-                <selector title="Type" v-model="action.type" :options="actionTypes"></selector>
-                <selector title="Project" v-model="action.project" :options="projectsOpt"></selector>
-                <datetime title="Due" v-model="action.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="action.dueDate = null"></datetime>
-                <x-input v-if="action.type !== 'Todo/Done'" title="Target" v-model.lazy="target" type="number"></x-input>
-            </group>
-        </swiper-item>
+                    <!-- <div v-if="action.type == 'Accumulate' || action.type == 'Store'" class="form-group">
+                         <label>Process: {{ noncountableLikeProcess }}</label>
+                         <input type="number" v-model="noncountableLikeItemValue" @keypress.enter.prevent="addNoncountableLikeItem()"/>
+                         </div> -->
+                    <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
+                        <div style="width: 100px; height: 100px; margin: 0 auto;">
+                            <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
+                                <span>{{ noncountableLikeProcessPercent }}%</span>
+                            </x-circle>
+                        </div>
+                        <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
+                        <!-- <flexbox style="margin-top: 3rem;">
+                             <flexbox-item>
+                             <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
+                             </flexbox-item>
+                             <flexbox-item>
+                             <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
+                             </flexbox-item>
+                             </flexbox> -->
+                    </template>
+                </group>
+            </swiper-item>
+
+            <swiper-item :key="1">
+                <group label-align="left" label-width="4em" label-margin-right="2em">
+                    <selector title="Type" v-model="action.type" :options="actionTypes"></selector>
+                    <selector title="Project" v-model="action.project" :options="projectsOpt"></selector>
+                    <datetime title="Due" v-model="action.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="action.dueDate = null"></datetime>
+                    <x-input v-if="action.type !== 'Todo/Done'" keyboard="number" :show-clear="false" title="Target" v-model.lazy="target" type="number"></x-input>
+                </group>
+            </swiper-item>
 
 
-        <swiper-item :key="2">
-            <group title="" label-align="left" label-width="4em" label-margin-right="2em">
-                <x-textarea v-model.lazy="action.description" placeholder="Description" :height="200" ></x-textarea>
-            </group>
-        </swiper-item>
-    </swiper>
+            <swiper-item :key="2">
+                <group title="" label-align="left" label-width="4em" label-margin-right="2em">
+                    <x-textarea v-model.lazy="action.description" placeholder="Description" :height="200" ></x-textarea>
+                </group>
+            </swiper-item>
+        </swiper>
 
-    <input v-model="actionDone" type="text" style="display: none;"/>
-</form>
+        <input v-model="actionDone" type="text" style="display: none;"/>
+    </form>
+
+    <transition name="fade" mode="out-in">
+        <scroller v-if="tabSelected === 0">
+            <divider>Timeline</divider>
+            <timeline>
+                <timeline-item v-for="(item, index) in timeline" :key="index">
+                    <h4 :class="{recent: index === 0}">{{ item.value }}</h4>
+                    <p :class="{recent: index === 0}">{{ item.date }}</p>
+                    <p v-if="item.log">{{ item.log }}</p>
+                </timeline-item>
+            </timeline>
+        </scroller>
+    </transition>
+</div>
