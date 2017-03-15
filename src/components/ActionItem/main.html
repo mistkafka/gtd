@@ -3,7 +3,7 @@
         <x-textarea v-model.lazy="action.title" placeholder="Untitled" :show-counter="false" :rows="1" ref="autosize"></x-textarea>
     </group>
 
-    <x-dialog v-model="dialogShow">
+    <x-dialog v-model="dialogShow" :hide-on-blur="true">
         <group>
             <x-input type="number" v-model="noncountableLikeItemValue" placeholder="eg. 32.50"></x-input>
             <x-textarea v-model="log" :height="200" placeholder="Note"></x-textarea>
@@ -34,11 +34,11 @@
                      </div> -->
                 <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
                     <div style="width: 100px; height: 100px; margin: 0 auto;">
-                        <x-circle :percent="noncountableLikeProcess" :stroke-width="10" stroke-color="#04BE02">
-                            <span>{{ noncountableLikeProcess }}%</span>
+                        <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
+                            <span>{{ noncountableLikeProcessPercent }}%</span>
                         </x-circle>
                     </div>
-                    <p style="text-align: center;">1032 / 38232</p>
+                    <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
                     <divider>Timeline</divider>
                     <flexbox style="margin-top: 3rem;">
                         <flexbox-item>

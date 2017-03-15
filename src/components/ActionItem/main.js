@@ -142,16 +142,15 @@ export default {
         return sum
       }, 0)
 
-      let rslt = Number.parseInt(sum / this.action.target * 100);
+      return sum;
+
+    },
+    noncountableLikeProcessPercent () {
+      let rslt = Number.parseInt(this.noncountableLikeProcess / this.action.target * 100);
       return rslt;
     },
     noncountableLikeDone () {
-      let sum = this.action.processItems.reduce((sum, item) => {
-        sum += item.value
-        return sum
-      }, 0)
-
-      return sum >= this.action.target
+      return this.noncountableLikeProcess >= this.action.target
     },
     actionDone () {
       let rslt = false
