@@ -5,11 +5,42 @@ import vuexI18n from 'vuex-i18n'
 
 Vue.use(Vuex)
 
+const modelTpl = {
+  action: {
+    model: 'action',
+    title: '',
+    description: '',
+    project: '',
+    type: 'Todo/Done',
+    context: '',
+    dueDate: '',
+    repeat: '',
+    target: 1,
+    processItems: [],
+    schedules: [],
+    completed: false
+  },
+  project: {
+    model: 'project',
+    title: '',
+    note: '',
+    status: 'Active',
+    context: '',
+    dueDate: '',
+    logs: [],
+    id: ''
+  }
+}
+
 const store = new Vuex.Store({
   modules: {
     i18n: vuexI18n.store
   },
   state: {
+    'new/action': Object.assign({}, modelTpl.action),
+    'new/project': Object.assign({}, modelTpl.project),
+    'active/actionid': null,
+    'active/projectid': null,
     actions: [],
     projects: [],
     contexts: [],
@@ -21,6 +52,28 @@ const store = new Vuex.Store({
   },
 
   getters: {
+    activeAction: (state) => {
+      let rslt = null
+
+      if (state['active/actionid']) {
+        rslt = state.actions.find(_ => _.id === state['active/actionid'])
+      } else {
+        rslt = state['new/action']
+      }
+
+      return rslt
+    },
+    activeProject: (state) => {
+      let rslt = null
+
+      if (state['active/projectid']) {
+        rslt = state.projects.find(_ => _.id === state['active/projectid'])
+      } else {
+        rslt = state['new/project']
+      }
+
+      return rslt
+    },
     projectMap: ({projects}) => projects.reduce((map, _) => map.set(_.id, _), new Map()),
     contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_.id, _), new Map()),
     actionMap: ({actions}) => actions.reduce((map, _) => map.set(_.id, _), new Map()),
@@ -32,10 +85,12 @@ const store = new Vuex.Store({
       state.topActions = actions
     },
     save (state, item) {
-      if (!item.id) {
-        item.id = helper.generateUUID()
+      if (item.id) {
+        return
       }
-      state[item.model].push(item)
+      item.id = helper.generateUUID()
+      state[`new/${item.model}`] = Object.assign({}, modelTpl[item.model])
+      state[item.model + 's'].push(item)
     },
     GET_STATE_FROM_LOCALSTORAGE: (state) => {
       [
@@ -51,6 +106,9 @@ const store = new Vuex.Store({
         models = [models]
       }
       models.forEach((model) => window.localStorage.setItem(model, JSON.stringify(state[model])))
+    },
+    SET_ACTIVE_ID: (state, { type, id }) => {
+      state[`active/${type}id`] = id
     }
   },
   actions: {

@@ -40,14 +40,14 @@
                             </x-circle>
                         </div>
                         <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
-                        <!-- <flexbox style="margin-top: 3rem;">
-                             <flexbox-item>
-                             <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
-                             </flexbox-item>
-                             <flexbox-item>
-                             <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
-                             </flexbox-item>
-                             </flexbox> -->
+                        <flexbox style="margin-top: 3rem;">
+                            <flexbox-item>
+                                <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
+                            </flexbox-item>
+                            <flexbox-item>
+                                <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
+                            </flexbox-item>
+                        </flexbox>
                     </template>
                 </group>
             </swiper-item>

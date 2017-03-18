@@ -1,24 +1,11 @@
 import { mapGetters, mapMutations } from 'vuex'
 
-const MODEL_NAME = 'projects'
 
 export default {
   name: 'ProjectItem',
   data () {
-    const projectTpl = {
-      model: MODEL_NAME,
-      title: '',
-      note: '',
-      status: 'Active',
-      context: '',
-      dueDate: '',
-      logs: [],
-      id: ''
-    }
     return {
       loading: true,
-      projectTpl,
-      project: Object.assign({}, projectTpl),
       projectStatus: ['Active', 'On Hold', 'Completed', 'Dropped']
     }
   },
@@ -32,7 +19,8 @@ export default {
       return !!this.project.id
     },
     ...mapGetters({
-      projectMap: 'projectMap'
+      projectMap: 'projectMap',
+      project: 'activeProject'
     })
   },
   methods: {
@@ -42,14 +30,7 @@ export default {
     },
     load (id) {
       this.loading = true
-      let project = {};
-      if (id) {
-        project = this.projectMap.get(id)
-      } else {
-        project = Object.assign({}, this.projectTpl)
-      }
-      this.project = project
-
+      this.SET_ACTIVE_ID({ type: 'project', id: id })
       this.loading = false
     },
     registerAction () {
@@ -82,7 +63,12 @@ export default {
     back () {
       this.$router.go(-1)
     },
-    ...mapMutations(['registerTopActions'])
+    ...mapMutations(
+      [
+        'registerTopActions',
+        'SET_ACTIVE_ID'
+      ]
+    ),
   },
 
   // hooks

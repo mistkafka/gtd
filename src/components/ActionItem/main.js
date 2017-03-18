@@ -29,8 +29,6 @@ const targetHelpTextMap = {
   'Store': 'store how much?'
 }
 
-const MODEL_NAME = 'actions'
-
 export default {
   name: 'ActionItem',
   components: {
@@ -56,24 +54,8 @@ export default {
     Scroller
   },
   data () {
-    const actionTpl = {
-      model: MODEL_NAME,
-      title: '',
-      description: '',
-      project: '',
-      type: 'Todo/Done',
-      context: '',
-      dueDate: '',
-      repeat: '',
-      target: 1,
-      processItems: [],
-      schedules: [],
-      completed: false
-    }
     return {
       loading: true,
-      actionTpl,
-      action: Object.assign({}, actionTpl),
       actionTypes: ['Todo/Done', 'Times', 'Accumulate', 'Store'],
       noncountableLikeItemValue: 0,
       log: '',
@@ -92,7 +74,8 @@ export default {
       contexts: 'contexts'
     }),
     ...mapGetters({
-      actionMap: 'actionMap'
+      actionMap: 'actionMap',
+      action: 'activeAction'
     }),
     projectsOpt () {
       let opt = [{key: '', value: 'None'}]
@@ -197,21 +180,19 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['registerTopActions']),
+    ...mapMutations(
+      [
+        'registerTopActions',
+        'SET_ACTIVE_ID'
+      ]
+    ),
     startCycle (id) {
       this.load(id)
       this.registerAction()
     },
     load (id) {
       this.loading = true
-      let action = {};
-      if (id) {
-        action = this.actionMap.get(id)
-      } else {
-        action = Object.assign({}, this.actionTpl)
-      }
-      this.action = action
-
+      this.SET_ACTIVE_ID({ id: id, type: 'action'})
       this.loading = false
     },
     registerAction () {
