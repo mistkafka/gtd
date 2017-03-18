@@ -1,0 +1,38 @@
+<div>
+    <group label-align="left" label-width="4em" label-margin-right="2em">
+        <div v-if="action.type == 'Todo/Done'" class="form-group">
+            <label>Done</label>
+            <input v-model="done" type="checkbox" />
+        </div>
+        <div v-if="action.type == 'Times'" class="form-group">
+            <label>Times: {{ timesProcess }}</label>
+            <input type="submit" @click.prevent="addTimes()" value="+"/>
+        </div>
+
+        <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
+            <div style="width: 100px; height: 100px; margin: 0 auto;">
+                <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
+                    <span>{{ noncountableLikeProcessPercent }}%</span>
+                </x-circle>
+            </div>
+            <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
+            <flexbox style="margin-top: 3rem;">
+                <flexbox-item>
+                    <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
+                </flexbox-item>
+                <flexbox-item>
+                    <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
+                </flexbox-item>
+            </flexbox>
+        </template>
+    </group>
+
+    <divider>Timeline</divider>
+    <timeline>
+        <timeline-item v-for="(item, index) in timeline" :key="index">
+            <h4 :class="{recent: index === 0}">{{ item.value }}</h4>
+            <p :class="{recent: index === 0}">{{ item.date }}</p>
+            <p v-if="item.log">{{ item.log }}</p>
+        </timeline-item>
+    </timeline>
+</div>

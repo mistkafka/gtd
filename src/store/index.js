@@ -18,7 +18,7 @@ const modelTpl = {
     target: 1,
     processItems: [],
     schedules: [],
-    completed: false
+    status: 'Active'
   },
   project: {
     model: 'project',

@@ -17,71 +17,14 @@
             <tab-item class="vux-center" :key="1">Information</tab-item>
             <tab-item class="vux-center" :key="2">Description</tab-item>
         </tab>
-        <swiper v-model="tabSelected" height="200px" :show-dots="false">
-            <swiper-item :key="0">
-                <group label-align="left" label-width="4em" label-margin-right="2em">
-                    <div v-if="action.type == 'Todo/Done'" class="form-group">
-                        <label>Done</label>
-                        <input v-model="done" type="checkbox" />
-                    </div>
-                    <div v-if="action.type == 'Times'" class="form-group">
-                        <label>Times: {{ timesProcess }}</label>
-                        <input type="submit" @click.prevent="addTimes()" value="+"/>
-                    </div>
-
-                    <!-- <div v-if="action.type == 'Accumulate' || action.type == 'Store'" class="form-group">
-                         <label>Process: {{ noncountableLikeProcess }}</label>
-                         <input type="number" v-model="noncountableLikeItemValue" @keypress.enter.prevent="addNoncountableLikeItem()"/>
-                         </div> -->
-                    <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
-                        <div style="width: 100px; height: 100px; margin: 0 auto;">
-                            <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
-                                <span>{{ noncountableLikeProcessPercent }}%</span>
-                            </x-circle>
-                        </div>
-                        <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
-                        <flexbox style="margin-top: 3rem;">
-                            <flexbox-item>
-                                <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
-                            </flexbox-item>
-                            <flexbox-item>
-                                <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
-                            </flexbox-item>
-                        </flexbox>
-                    </template>
-                </group>
-            </swiper-item>
-
-            <swiper-item :key="1">
-                <group label-align="left" label-width="4em" label-margin-right="2em">
-                    <selector title="Type" v-model="action.type" :options="actionTypes"></selector>
-                    <selector title="Project" v-model="action.project" :options="projectsOpt"></selector>
-                    <datetime title="Due" v-model="action.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="action.dueDate = null"></datetime>
-                    <x-input v-if="action.type !== 'Todo/Done'" keyboard="number" :show-clear="false" title="Target" v-model.lazy="target" type="number"></x-input>
-                </group>
-            </swiper-item>
-
-
-            <swiper-item :key="2">
-                <group title="" label-align="left" label-width="4em" label-margin-right="2em">
-                    <x-textarea v-model.lazy="action.description" placeholder="Description" :height="200" ></x-textarea>
-                </group>
-            </swiper-item>
-        </swiper>
-
-        <input v-model="actionDone" type="text" style="display: none;"/>
+        <transition name="fade" mode="out-in">
+            <keep-alive>
+                <template>
+                    <ActionProcess v-if="tabSelected === 0" @increase="dialogShow = true"/>
+                    <ActionInfo v-if="tabSelected === 1" />
+                    <ActionDescription v-if="tabSelected === 2"/>
+                </template>
+            </keep-alive>
+        </transition>
     </form>
-
-    <transition name="fade" mode="out-in">
-        <scroller v-if="tabSelected === 0">
-            <divider>Timeline</divider>
-            <timeline>
-                <timeline-item v-for="(item, index) in timeline" :key="index">
-                    <h4 :class="{recent: index === 0}">{{ item.value }}</h4>
-                    <p :class="{recent: index === 0}">{{ item.date }}</p>
-                    <p v-if="item.log">{{ item.log }}</p>
-                </timeline-item>
-            </timeline>
-        </scroller>
-    </transition>
 </div>
