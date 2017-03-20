@@ -18,15 +18,15 @@
         </x-dialog>
 
         <tab :line-width=2.5 active-color='#3cc51f' v-model="tabSelected">
-            <tab-item class="vux-center" :key="0">Process</tab-item>
-            <tab-item class="vux-center" :key="1">Information</tab-item>
+            <tab-item class="vux-center" :key="0">Information</tab-item>
+            <tab-item class="vux-center" :key="1">Process</tab-item>
             <tab-item class="vux-center" :key="2">Description</tab-item>
         </tab>
         <transition name="fade" mode="out-in">
             <keep-alive>
                 <template>
-                    <ActionProcess v-if="tabSelected === 0"/>
-                    <ActionInfo v-if="tabSelected === 1" />
+                    <ActionInfo v-if="tabSelected === 0" />
+                    <ActionProcess v-if="tabSelected === 1"/>
                     <ActionDescription v-if="tabSelected === 2"/>
                 </template>
             </keep-alive>
