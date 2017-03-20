@@ -1,11 +1,8 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import {
   Group,
-  XButton,
   XCircle,
   Divider,
-  Flexbox,
-  FlexboxItem,
   Timeline,
   TimelineItem,
   dateFormat
@@ -16,11 +13,8 @@ export default {
 
   components: {
     Group,
-    XButton,
     XCircle,
     Divider,
-    Flexbox,
-    FlexboxItem,
     Timeline,
     TimelineItem,
     dateFormat
@@ -30,6 +24,15 @@ export default {
     ...mapGetters({
       action: 'activeAction'
     }),
+    process () {
+      switch (this.action.type) {
+        case 'Accumulate':
+        case 'Store':
+          return this.noncountableLikeProcess()
+        case 'Times':
+          return this.processItems.length
+      }
+    },
     noncountableLikeProcess () {
       let sum = this.action.processItems.reduce((sum, item) => {
         sum += item.value

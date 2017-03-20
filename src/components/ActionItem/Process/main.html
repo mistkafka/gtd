@@ -1,12 +1,7 @@
 <div>
-    <group label-align="left" label-width="4em" label-margin-right="2em">
-        <div v-if="action.type == 'Todo/Done'" class="form-group">
-            <label>Done</label>
-            <input v-model="done" type="checkbox" />
-        </div>
-        <div v-if="action.type == 'Times'" class="form-group">
-            <label>Times: {{ timesProcess }}</label>
-            <input type="submit" @click.prevent="addTimes()" value="+"/>
+    <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border">
+        <div v-if="action.type == 'Times'" style="text-align: center;">
+            <label>{{ timesProcess }}</label>
         </div>
 
         <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
@@ -15,15 +10,7 @@
                     <span>{{ noncountableLikeProcessPercent }}%</span>
                 </x-circle>
             </div>
-            <p style="text-align: center;">{{ noncountableLikeProcess }} / {{ action.target }}</p>
-            <flexbox style="margin-top: 3rem;">
-                <flexbox-item>
-                    <x-button type="primary" @click.native.prevent="increaseStore">Increase</x-button>
-                </flexbox-item>
-                <flexbox-item>
-                    <x-button type="warn" @click.native.prevent="decreaseStore">Decrease</x-button>
-                </flexbox-item>
-            </flexbox>
+            <p style="text-align: center;">{{ process }} / {{ action.target }}</p>
         </template>
     </group>
 

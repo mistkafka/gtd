@@ -6,12 +6,29 @@ import {
   XDialog,
   XButton,
   Tab,
-  TabItem
+  TabItem,
+  Actionsheet
 } from 'vux'
 
 import ActionProcess from './Process'
 import ActionInfo from './Info'
 import ActionDescription from './Description'
+
+const menus = {
+  'Store': {
+    addnoncountablelikeitem: 'Increase/decrease Store'
+  },
+  'Accumulate': {
+    addnoncountablelikeitem: 'Increase Accumulate'
+  },
+  'Times': {
+    addtimesitem: 'Add Timeline'
+  },
+  'Todo/Done': {
+    done: 'Done',
+    skip: 'Skip'
+  }
+}
 
 export default {
   name: 'ActionItem',
@@ -23,6 +40,7 @@ export default {
     XButton,
     Tab,
     TabItem,
+    Actionsheet,
 
     ActionProcess,
     ActionInfo,
@@ -34,7 +52,9 @@ export default {
       noncountableLikeItemValue: 0,
       log: '',
       tabSelected: 0,
-      dialogShow: false
+      dialogShow: false,
+      showMenus: false,
+      todoitem: null
     }
   },
   watch: {
@@ -55,6 +75,9 @@ export default {
       } else if (this.action.type === 'Store') {
         return 'allow negative. ex: -128.20'
       }
+    },
+    menus () {
+      return menus[this.action.type]
     }
   },
   methods: {
@@ -76,10 +99,13 @@ export default {
     registerAction () {
       let actions = {}
       if (this.editMode) {
+        let me = this;
         actions = {
           left: { backText: 'Back', action: this.back },
           middle: { title: 'Action', action: null },
-          right: { title: '', action: null }
+          right: { title: '', showMore: true, action: () => {
+            me.showMenus = true
+          }}
         }
       } else {
         actions = {
@@ -102,10 +128,18 @@ export default {
       this.action = Object.assign({}, this.actionTpl)
       this.$router.go(-1)
     },
-    addTimes () {
+    addTodoDoneItem() {
+      let item = {
+        value: this.todoitem,
+        date: (new Date()).toString(),
+        log: this.log
+      }
+      this.action.processItems.push(item)
+    },
+    addTimesItem () {
       let item = {
         date: (new Date()).toString(),
-        log: '' // TODO
+        log: this.log
       }
       this.action.processItems.push(item)
     },
@@ -122,11 +156,10 @@ export default {
       this.action.processItems.push(item)
 
       this.noncountableLikeItemValue = 0
-      this.log = ''
-      this.dialogShow = false
     },
     validateNoncountableLikeItemValue () {
-      if (!this.noncountableLikeItemValue) {
+      if ((this.action.type === 'Accumulate' || this.action.type === 'Store') &&
+          !this.noncountableLikeItemValue) {
         return {
           valid: false,
           msg: 'Required'
@@ -143,6 +176,22 @@ export default {
       return {
         valid: true
       }
+    },
+    addItem () {
+      switch(this.action.type) {
+        case 'Store':
+        case 'Accumulate':
+          this.addNoncountableLikeItem()
+          break;
+        case 'Times':
+          this.addTimesItem()
+          break;
+        case 'Todo/Done':
+          this.addTodoDoneItem()
+          break;
+      }
+      this.log = ''
+      this.dialogShow = false
     }
   },
 

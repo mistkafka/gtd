@@ -1,15 +1,20 @@
 <div v-if="!loading">
     <form>
-        <group label-align="left" label-width="4em" label-margin-right="2em">
+        <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border">
             <x-textarea v-model.lazy="action.title" placeholder="Untitled" :show-counter="false" :rows="1" ref="autosize"></x-textarea>
         </group>
 
         <x-dialog v-model="dialogShow" :hide-on-blur="true">
-            <group>
-                <x-input type="number" v-model.lazy="noncountableLikeItemValue" :placeholder="noncountableLikeItemPlacheholder" :is-type="validateNoncountableLikeItemValue"></x-input>
+            <group class="clear-group-border">
+                <x-input
+                    v-if="action.type !== 'Todo/Done' && action.type !== 'Times'"
+                    type="number"
+                    v-model.lazy="noncountableLikeItemValue"
+                    :placeholder="noncountableLikeItemPlacheholder"
+                    :is-type="validateNoncountableLikeItemValue"></x-input>
                 <x-textarea v-model="log" :height="200" placeholder="Note(option)"></x-textarea>
             </group>
-            <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addNoncountableLikeItem">Submit</x-button>
+            <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addItem">Submit</x-button>
         </x-dialog>
 
         <tab :line-width=2.5 active-color='#3cc51f' v-model="tabSelected">
@@ -20,11 +25,22 @@
         <transition name="fade" mode="out-in">
             <keep-alive>
                 <template>
-                    <ActionProcess v-if="tabSelected === 0" @increase="dialogShow = true"/>
+                    <ActionProcess v-if="tabSelected === 0"/>
                     <ActionInfo v-if="tabSelected === 1" />
                     <ActionDescription v-if="tabSelected === 2"/>
                 </template>
             </keep-alive>
         </transition>
     </form>
+    <actionsheet
+        :menus="menus"
+        v-model="showMenus"
+        show-cancel
+        @on-click-menu-addnoncountablelikeitem="dialogShow = true"
+
+        @on-click-menu-addtimesitem="dialogShow = true"
+
+        @on-click-menu-done="dialogShow = true, todoitem='Done'"
+        @on-click-menu-skip="dialogShow = true, todoitem='Skip'"
+    ></actionsheet>
 </div>

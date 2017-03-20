@@ -1,4 +1,5 @@
-<group label-align="left" label-width="4em" label-margin-right="2em">
+<group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border-top">
+    <selector title="Status" v-model="action.status" :options="statuses"></selector>
     <selector title="Type" v-model="action.type" :options="actionTypes"></selector>
     <selector title="Project" v-model="action.project" :options="projectsOpt"></selector>
     <datetime title="Due" v-model="action.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="action.dueDate = null"></datetime>
