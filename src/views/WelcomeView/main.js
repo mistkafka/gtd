@@ -1,7 +1,12 @@
 import { mapMutations } from 'vuex'
+import { Cell, Group } from 'vux'
 
 export default {
   name: 'WelcomeView',
+  components: {
+    Cell,
+    Group
+  },
   data () {
     return {
       links: ['inbox', 'projects']
@@ -10,9 +15,9 @@ export default {
   methods: {
     registerAction () {
       let actions = {
-        left: { title: 'Sync', action: this.sync },
-        middle: { title: '', action: null },
-        right: { title: 'Settings', action: this.toSettings }
+        left: { showBack: false },
+        middle: { title: 'Home', action: null },
+        right: { title: '', action: this.toSettings }
       }
 
       this.registerTopActions(actions)

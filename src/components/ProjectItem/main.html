@@ -1,28 +1,6 @@
-<form class="padding-normal" v-if="!loading">
-    <div class="form-group">
-        <input v-model.lazy="project.title" type="text" placeholder="Untitled" />
-    </div>
-
-    <div class="form-group">
-        <textarea v-model.lazy="project.note" placeholder="Note"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label>Status</label>
-        <select v-model="project.status">
-            <option value="">None</option>
-            <option v-for="status in projectStatus" :value="status">{{ status }}</option>
-        </select>
-    </div>
-
-    <!-- <div class="form-group">
-        <label>Context</label>
-        <select v-model="project.context">
-        </select>
-    </div> -->
-
-    <div class="form-group">
-        <label>Due</label>
-        <input v-model="project.dueDate" type="date" />
-    </div>
-</form>
+<group v-if="!loading">
+    <x-input v-model="project.title" type="text" placeholder="Untitled"></x-input>
+    <x-textarea v-model="project.description" placeholder="Description"></x-textarea>
+    <selector title="Status" v-model="project.status" :options="projectStatuses"></selector>
+    <datetime title="Due" v-model="project.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="project.dueDate = null"></datetime>
+</group>

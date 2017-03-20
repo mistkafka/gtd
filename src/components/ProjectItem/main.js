@@ -1,12 +1,28 @@
 import { mapGetters, mapMutations } from 'vuex'
+import {
+  Group,
+  XInput,
+  Selector,
+  Datetime,
+  XTextarea
+} from 'vux'
 
 
 export default {
   name: 'ProjectItem',
+
+  components: {
+    Group,
+    XInput,
+    Selector,
+    Datetime,
+    XTextarea
+  },
+
   data () {
     return {
       loading: true,
-      projectStatus: ['Active', 'On Hold', 'Completed', 'Dropped']
+      projectStatuses: ['Active', 'On Hold', 'Completed', 'Dropped']
     }
   },
   watch: {
@@ -37,7 +53,7 @@ export default {
       let actions = {}
       if (this.editMode) {
         actions = {
-          left: { title: 'Back', action: this.back },
+          left: { backText: 'Back', action: this.back },
           middle: { title: 'Project', action: null },
           right: { title: '', action: null }
         }

@@ -1,11 +1,19 @@
-<ul v-if="!loading">
-    <li>
-        <h3>
-            <router-link :to="'/project/' + project.id">{{ project.title }}</router-link>
-        </h3>
-    </li>
-    <hr />
-    <li v-for="action in projectActions(project.id)" :key="action.id">
-        <router-link :to="'/action/' + action.id" >{{ action.title }}</router-link>
-    </li>
-</ul>
+<div class="clear-group-border-top clear-cell-linkarrow">
+    <group v-if="!loading">
+        <cell
+            :title="project.title"
+            :link="'/project/' + project.id"
+            inline-desc="4 itmes"
+            :is-link="false"
+        ></cell>
+        <cell v-for="action in projectActions(project.id)"
+              :key="action.id"
+              :link="'/action/' + action.id"
+              :title="action.title"
+        >
+            <div slots="default" style="display: inline-block" :value="'haha'">
+                <input type="checkbox" />
+            </div>
+        </cell>
+    </group>
+</div>

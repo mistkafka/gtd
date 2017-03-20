@@ -28,7 +28,7 @@ export default {
       switch (this.action.type) {
         case 'Accumulate':
         case 'Store':
-          return this.noncountableLikeProcess()
+          return this.noncountableLikeProcess
         case 'Times':
           return this.processItems.length
       }

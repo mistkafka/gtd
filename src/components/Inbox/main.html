@@ -1,5 +1,7 @@
-<ul>
-    <li v-for="action in inbox" :key="action.id">
-        <router-link :to="'/action/' + action.id" >{{ action.title }}</router-link>
-    </li>
-</ul>
+<group>
+    <cell v-for="action in inbox" :key="action.id"
+          :title="action.title"
+          :link="'/action/' + action.id"
+    >
+    </cell>
+</group>

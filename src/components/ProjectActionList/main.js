@@ -1,7 +1,12 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
+import { Cell, Group } from 'vux'
 
 export default {
   name: 'ProjectActionList',
+  components: {
+    Cell,
+    Group
+  },
   data () {
     return {
       loading: true,
@@ -26,7 +31,7 @@ export default {
     },
     registerAction () {
       let actions = {
-        left: {title: 'Projects', action: this.toProjects},
+        left: {backText: 'Projects', action: this.toProjects},
         middle: {title: '', action: null},
         right: {title: 'Edit', action: this.editList}
       }

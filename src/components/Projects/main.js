@@ -1,7 +1,12 @@
 import { mapState, mapMutations } from 'vuex'
+import { Cell, Group } from 'vux'
 
 export default {
   name: 'Projects',
+  components: {
+    Cell,
+    Group
+  },
   computed: {
     ...mapState({
       projects: 'projects'
@@ -10,7 +15,7 @@ export default {
   methods: {
     registerAction () {
       let actions = {
-        left: { title: 'Home', action: this.toHome },
+        left: { backText: 'Home', action: this.toHome },
         middle: { title: 'Projects', action: null },
         right: { title: 'New', action: this.toNewProject }
       }

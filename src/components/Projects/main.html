@@ -1,5 +1,9 @@
-<ul>
-    <li v-for="project in projects" :key="project.id">
-        <router-link :to="'/project/' + project.id + '/list'" >{{ project.title }}</router-link>
-    </li>
-</ul>
+<group>
+    <cell
+        v-for="project in projects"
+        :key="project.id"
+        :link="'/project/' + project.id + '/list'"
+        :title="project.title"
+    >
+    </cell>
+</group>

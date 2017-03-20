@@ -23,7 +23,7 @@ const modelTpl = {
   project: {
     model: 'project',
     title: '',
-    note: '',
+    description: '',
     status: 'Active',
     context: '',
     dueDate: '',
