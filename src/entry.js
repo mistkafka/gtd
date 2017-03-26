@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import router from './router'
+import { AlertPlugin } from 'vux'
+
+Vue.use(AlertPlugin)
 
 /* eslint-disable no-new */
 new Vue({

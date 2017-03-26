@@ -9,6 +9,7 @@ import InboxView from '../components/Inbox'
 import Projects from '../components/Projects'
 import Project from '../components/ProjectItem'
 import ProjectActionList from '../components/ProjectActionList'
+import SettingsView from '../views/SettingsView'
 
 export default new Router({
   mode: 'history',
@@ -20,6 +21,7 @@ export default new Router({
     { path: '/projects', component: Projects },
     { name: '+project', path: '/project/new', component: Project },
     { path: '/project/:id', component: Project },
-    { path: '/project/:id/list', component: ProjectActionList }
+    { path: '/project/:id/list', component: ProjectActionList },
+    { path: '/settings', component: SettingsView }
   ]
 })

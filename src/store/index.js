@@ -14,10 +14,8 @@ const modelTpl = {
     type: 'Todo/Done',
     context: '',
     dueDate: '',
-    repeat: '',
     target: 1,
     processItems: [],
-    schedules: [],
     status: 'Active'
   },
   project: {
@@ -27,8 +25,7 @@ const modelTpl = {
     status: 'Active',
     context: '',
     dueDate: '',
-    logs: [],
-    id: ''
+    logs: []
   }
 }
 
@@ -48,7 +45,9 @@ const store = new Vuex.Store({
       left: {},
       middle: {},
       right: {}
-    }
+    },
+    login: null,
+    API: 'http://127.0.0.1:3000/api'
   },
 
   getters: {
@@ -109,10 +108,12 @@ const store = new Vuex.Store({
     },
     SET_ACTIVE_ID: (state, { type, id }) => {
       state[`active/${type}id`] = id
+    },
+    SET_LOGIN: (state, login) => {
+      state.login = login
     }
   },
   actions: {
-
   }
 })
 

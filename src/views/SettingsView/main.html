@@ -1,0 +1,27 @@
+<group>
+    <div v-if="!loginStatus">
+        <x-input v-model="username">
+            <svg slot="label" class="icon icon-head"><use xlink:href="/static/svgs.svg#icon-head"></use></svg>
+        </x-input>
+        <x-input v-model="password" type="password">
+            <svg slot="label" class="icon icon-lock"><use xlink:href="/static/svgs.svg#icon-lock"></use></svg>
+        </x-input>
+        <template v-if="status === 'login'">
+            <label>Havan't account? <a href="#" @click.prevent="status = 'register'">register</a></label>
+            <x-button type="primary" @click.native="login">Login</x-button>
+        </template>
+        <template v-else>
+            <x-input v-model="confirmPassword" type="password">
+                <svg slot="label" class="icon icon-lock"><use xlink:href="/static/svgs.svg#icon-lock"></use></svg>
+            </x-input>
+            <label>Back to <a href="#" @click.prevent="status = 'login'">login</a></label>
+            <x-button type="primary" @click.native="register">Register</x-button>
+        </template>
+    </div>
+
+    <div v-if="loginStatus">
+        <x-input v-model="loginStatus.username" :readonly="true">
+            <svg slot="label" class="icon icon-head"><use xlink:href="/static/svgs.svg#icon-head"></use></svg>
+        </x-input>
+    </div>
+</group>
