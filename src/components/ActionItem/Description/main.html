@@ -1,3 +1,9 @@
 <group title="" label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border">
-    <x-textarea v-model.lazy="action.description" placeholder="Description" :height="200" ></x-textarea>
+    <x-textarea
+        v-model.lazy="action.description"
+        placeholder="Description"
+        :height="200"
+        @on-focus="startEditField('description')"
+        @on-blur="editedField()"
+    ></x-textarea>
 </group>

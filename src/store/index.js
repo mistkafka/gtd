@@ -53,7 +53,8 @@ const store = new Vuex.Store({
       username: 'mistkafka'
     },
     API: 'http://127.0.0.1:3000/api',
-    loading: false
+    loading: false,
+    editMode: false
   },
 
   getters: {
@@ -115,6 +116,9 @@ const store = new Vuex.Store({
     },
     SET_LOADING: (state, loading) => {
       state.loading = loading
+    },
+    SET_EDIT_MODE: (state, editMode) => {
+      state.editMode = editMode
     }
   },
   actions: {

@@ -1,7 +1,15 @@
 <div v-if="!loading">
     <form>
         <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border">
-            <x-textarea v-model.lazy="action.title" placeholder="Untitled" :show-counter="false" :rows="1" ref="autosize"></x-textarea>
+            <x-textarea
+                v-model.lazy="action.title"
+                placeholder="Untitled"
+                :show-counter="false"
+                :rows="1"
+                ref="autosize"
+                @on-focus="startEditField('title')"
+                @on-blur="editedField()"
+            ></x-textarea>
         </group>
 
         <x-dialog v-model="dialogShow" :hide-on-blur="true">

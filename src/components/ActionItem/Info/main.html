@@ -1,7 +1,24 @@
 <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border-top">
-    <selector title="Status" v-model="action.status" :options="statuses"></selector>
-    <selector title="Type" v-model="action.type" :options="actionTypes"></selector>
-    <selector title="Project" v-model="action.project" :options="projectsOpt"></selector>
-    <datetime title="Due" v-model="action.dueDate" format="YYYY-MM-DD HH:mm" placeholder="None" clear-text="Clear" @on-clear="action.dueDate = null"></datetime>
-    <x-input v-if="action.type !== 'Todo/Done'" keyboard="number" :show-clear="false" title="Target" v-model.lazy="target" type="number"></x-input>
+    <selector title="Status" v-model="action.status" @on-change="editedField('status', $event)" :options="statuses"></selector>
+    <selector title="Type" v-model="action.type" @on-change="editedField('type', $event)" :options="actionTypes"></selector>
+    <selector title="Project" v-model="action.project" :options="projectsOpt" @on-change="editedProject"></selector>
+
+    <datetime
+        title="Due"
+        v-model="action.dueDate"
+        format="YYYY-MM-DD HH:mm"
+        placeholder="None"
+        clear-text="Clear"
+        @on-clear="action.dueDate = null"
+        @on-change="editedField('dueDate', $event)"
+    ></datetime>
+    <x-input v-if="action.type !== 'Todo/Done'"
+             keyboard="number"
+             :show-clear="false"
+             title="Target"
+             v-model="target"
+             type="number"
+             @on-focus="startEditField('target')"
+             @on-blur="editedInputField()"
+    ></x-input>
 </group>

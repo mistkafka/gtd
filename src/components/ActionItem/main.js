@@ -56,28 +56,12 @@ export default {
       tabSelected: 0,
       dialogShow: false,
       showMenus: false,
-      todoitem: null,
-      editMode: false
+      todoitem: null
     }
   },
   watch: {
     '$route' (to, from) {
       this.startCycle(to.params.id)
-    },
-    action: {
-      handler (to, from) {
-        if (typeof to !== 'object' || typeof from !== 'object') {
-          return
-        }
-        if (!from._id || !to._id) {
-          return
-        }
-
-        throttleProxy_700(() => {
-          this.$store.dispatch('UPDATE_MODEL', 'action')
-        })()
-      },
-      deep: true
     }
   },
   computed: {
@@ -103,7 +87,7 @@ export default {
       ]
     ),
     startCycle (id) {
-      this.editMode = id ? true : false
+      this.$store.commit('SET_EDIT_MODE', id ? true : false)
       this.load(id)
       this.registerAction()
     },
@@ -114,7 +98,7 @@ export default {
     },
     registerAction () {
       let actions = {}
-      if (this.editMode) {
+      if (this.$store.state.editMode) {
         let me = this;
         actions = {
           left: { backText: 'Back', action: this.back },
@@ -150,14 +134,14 @@ export default {
         date: (new Date()).toString(),
         log: this.log
       }
-      this.action.processItems.push(item)
+      this.addProcessItem(item)
     },
     addTimesItem () {
       let item = {
         date: (new Date()).toString(),
         log: this.log
       }
-      this.action.processItems.push(item)
+      this.addProcessItem(item)
     },
     addNoncountableLikeItem () {
       if (!this.validateNoncountableLikeItemValue().valid) {
@@ -169,7 +153,7 @@ export default {
         date: (new Date()).toString(),
         log: this.log
       }
-      this.action.processItems.push(item)
+      this.addProcessItem(item)
 
       this.noncountableLikeItemValue = 0
     },
@@ -208,6 +192,41 @@ export default {
       }
       this.log = ''
       this.dialogShow = false
+    },
+    startEditField (field) {
+      if (!this.$store.state.editMode) {
+        return
+      }
+
+      this.editingField = field
+      this.editCache = this.action[field]
+    },
+    async editedField () {
+      if (!this.$store.state.editMode) {
+        return
+      }
+      let to = this.action[this.editingField]
+      let from = this.editCache
+      if (to === from) {
+        return
+      }
+
+      this.action.logs.push({
+        type: 'field-change',
+        field: this.editingField,
+        date: new Date(),
+        from,
+        to,
+        note: ''
+      })
+      this.editCache = null
+      this.editingField = null
+
+      await this.$store.dispatch('UPDATE_MODEL', 'action')
+    },
+    async addProcessItem (item) {
+      this.action.processItems.push(item)
+      await this.$store.dispatch('UPDATE_MODEL', 'action')
     }
   },
 
