@@ -30,6 +30,9 @@ export default {
 
   // hooks
   beforeMount () {
+    if (!this.$store.state.login) {
+      this.$router.push('/settings')
+    }
     this.registerAction()
   }
 }

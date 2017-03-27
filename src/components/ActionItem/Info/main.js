@@ -33,7 +33,7 @@ export default {
     projectsOpt () {
       let opt = [{key: '', value: 'None'}]
 
-      this.projects.forEach((_) => opt.push({key: _.id, value: _.title}))
+      this.projects.forEach((_) => opt.push({key: _._id, value: _.title}))
 
       return opt
     },

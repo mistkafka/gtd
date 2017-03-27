@@ -54,13 +54,13 @@ export default {
         .catch(e => console.error(e))
     },
     async login () {
-      let me = this
       let {data: {token}} = await request.post(`${this.API}/auth/login`, {
         username: this.username,
         password: this.password
       })
 
       this.SET_LOGIN({username: this.username, token})
+      await this.$store.dispatch('LOAD')
     }
   },
 

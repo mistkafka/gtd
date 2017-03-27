@@ -67,9 +67,8 @@ export default {
 
       this.registerTopActions(actions)
     },
-    save () {
-      this.$store.commit('save', this.project)
-      this.project = Object.assign({}, this.projectTpl)
+    async save () {
+      await this.$store.dispatch('SAVE', this.project)
       this.$router.go(-1)
     },
     cancle () {

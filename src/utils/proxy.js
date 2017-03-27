@@ -9,3 +9,5 @@ export function throttleProxy (time = 300) {
 
   return (fn) => new Proxy(fn, handler)
 }
+
+export default throttleProxy

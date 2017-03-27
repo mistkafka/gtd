@@ -16,6 +16,8 @@ new Vue({
   template: '<App/>',
   components: { App },
   beforeCreate () {
-    this.$store.commit('GET_STATE_FROM_LOCALSTORAGE')
+    if (this.$store.state.login) {
+      this.$store.dispatch('LOAD')
+    }
   }
 })

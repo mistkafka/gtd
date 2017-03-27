@@ -2,13 +2,13 @@
     <group v-if="!loading">
         <cell
             :title="project.title"
-            :link="'/project/' + project.id"
+            :link="'/project/' + project._id"
             inline-desc="4 itmes"
             :is-link="false"
         ></cell>
-        <cell v-for="action in projectActions(project.id)"
-              :key="action.id"
-              :link="'/action/' + action.id"
+        <cell v-for="action in projectActions(project._id)"
+              :key="action._id"
+              :link="'/action/' + action._id"
               :title="action.title"
         >
             <div slots="default" style="display: inline-block" :value="'haha'">

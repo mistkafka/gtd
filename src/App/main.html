@@ -1,6 +1,6 @@
 <div id="app">
     <top-action-bar />
-    <main>
+    <main v-if="!$store.state.loading">
         <transition name="fade" mode="out-in">
             <router-view></router-view>
         </transition>

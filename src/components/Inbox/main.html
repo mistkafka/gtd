@@ -1,7 +1,7 @@
 <group>
-    <cell v-for="action in inbox" :key="action.id"
+    <cell v-for="action in inbox" :key="action._id"
           :title="action.title"
-          :link="'/action/' + action.id"
+          :link="'/action/' + action._id"
     >
     </cell>
 </group>

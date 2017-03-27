@@ -9,6 +9,8 @@ import {
   TabItem,
   Actionsheet
 } from 'vux'
+import throttleProxy from '../../utils/proxy'
+const throttleProxy_700 = throttleProxy(700)
 
 import ActionProcess from './Process'
 import ActionInfo from './Info'
@@ -54,21 +56,34 @@ export default {
       tabSelected: 0,
       dialogShow: false,
       showMenus: false,
-      todoitem: null
+      todoitem: null,
+      editMode: false
     }
   },
   watch: {
     '$route' (to, from) {
       this.startCycle(to.params.id)
+    },
+    action: {
+      handler (to, from) {
+        if (typeof to !== 'object' || typeof from !== 'object') {
+          return
+        }
+        if (!from._id || !to._id) {
+          return
+        }
+
+        throttleProxy_700(() => {
+          this.$store.dispatch('UPDATE_MODEL', 'action')
+        })()
+      },
+      deep: true
     }
   },
   computed: {
     ...mapGetters({
       action: 'activeAction'
     }),
-    editMode () {
-      return !!this.action.id
-    },
     noncountableLikeItemPlacheholder () {
       if (this.action.type === 'Accumulate') {
         return 'positive only. ex: 128.20'
@@ -88,6 +103,7 @@ export default {
       ]
     ),
     startCycle (id) {
+      this.editMode = id ? true : false
       this.load(id)
       this.registerAction()
     },
@@ -117,8 +133,8 @@ export default {
 
       this.registerTopActions(actions)
     },
-    save () {
-      this.$store.commit('save', this.action)
+    async save () {
+      await this.$store.dispatch('SAVE', this.action)
       this.$router.go(-1)
     },
     back () {

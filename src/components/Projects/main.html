@@ -1,8 +1,8 @@
 <group>
     <cell
         v-for="project in projects"
-        :key="project.id"
-        :link="'/project/' + project.id + '/list'"
+        :key="project._id"
+        :link="'/project/' + project._id + '/list'"
         :title="project.title"
     >
     </cell>
