@@ -7,11 +7,6 @@ export default {
     Cell,
     Group
   },
-  data () {
-    return {
-      links: ['inbox', 'projects']
-    }
-  },
   methods: {
     registerAction () {
       let actions = {

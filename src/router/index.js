@@ -10,6 +10,9 @@ import Projects from '../components/Projects'
 import Project from '../components/ProjectItem'
 import ProjectActionList from '../components/ProjectActionList'
 import SettingsView from '../views/SettingsView'
+import Contexts from '../components/Contexts'
+import Context from '../components/ContextItem'
+import ContextActionList from '../components/ContextActionList'
 
 export default new Router({
   mode: 'history',
@@ -22,6 +25,10 @@ export default new Router({
     { name: '+project', path: '/project/new', component: Project },
     { path: '/project/:id', component: Project },
     { path: '/project/:id/list', component: ProjectActionList },
-    { path: '/settings', component: SettingsView }
+    { path: '/settings', component: SettingsView },
+    { path: '/contexts', component: Contexts },
+    { name: '+context', path: '/context/new', component: Context },
+    { path: '/context/:id', component: Context },
+    { path: '/context/:id/list', component: ContextActionList }
   ]
 })

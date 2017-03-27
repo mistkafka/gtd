@@ -1,0 +1,19 @@
+<div class="clear-group-border-top clear-cell-linkarrow">
+    <group v-if="!loading">
+        <cell
+            :title="context.title"
+            :link="'/context/' + context._id"
+            inline-desc="4 itmes"
+            :is-link="false"
+        ></cell>
+        <cell v-for="action in contextActions(context._id)"
+              :key="action._id"
+              :link="'/action/' + action._id"
+              :title="action.title"
+        >
+            <div slots="default" style="display: inline-block" :value="'haha'">
+                <input type="checkbox" />
+            </div>
+        </cell>
+    </group>
+</div>

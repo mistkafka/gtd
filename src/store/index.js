@@ -27,6 +27,13 @@ const modelTpl = {
     context: '',
     dueDate: '',
     logs: []
+  },
+  context: {
+    model: 'context',
+    title: '',
+    description: '',
+    location: '',
+    device: ''
   }
 }
 
@@ -37,8 +44,10 @@ const store = new Vuex.Store({
   state: {
     'new/action': Object.assign({}, modelTpl.action),
     'new/project': Object.assign({}, modelTpl.project),
+    'new/context': Object.assign({}, modelTpl.context),
     'active/actionid': null,
     'active/projectid': null,
+    'active/contextid': null,
     actions: [],
     projects: [],
     contexts: [],
@@ -80,11 +89,23 @@ const store = new Vuex.Store({
 
       return rslt
     },
+    activeContext: (state) => {
+      let rslt = null
+
+      if (state['active/contextid']) {
+        rslt = state.contexts.find(_ => _._id === state['active/contextid'])
+      } else {
+        rslt = state['new/context']
+      }
+
+      return rslt
+    },
     projectMap: ({projects}) => projects.reduce((map, _) => map.set(_._id, _), new Map()),
     contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_._id, _), new Map()),
     actionMap: ({actions}) => actions.reduce((map, _) => map.set(_._id, _), new Map()),
     inbox: ({actions}) => actions.filter((_) => !_.project),
-    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id)
+    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id),
+    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id)
   },
   mutations: {
     registerTopActions (state, actions) {
@@ -114,6 +135,9 @@ const store = new Vuex.Store({
       })
       state.projects = projects
     },
+    SET_CONTEXTS: (state, contexts) => {
+      state.contexts = contexts
+    },
     SET_LOADING: (state, loading) => {
       state.loading = loading
     },
@@ -126,12 +150,14 @@ const store = new Vuex.Store({
       commit('SET_LOADING', true)
       await Promise.all([
         dispatch('LOAD_ACTIONS'),
-        dispatch('LOAD_PROJECTS')
+        dispatch('LOAD_PROJECTS'),
+        dispatch('LOAD_CONTEXTS')
       ])
       commit('SET_LOADING', false)
     },
     LOAD_ACTIONS: getLoadInses('action'),
     LOAD_PROJECTS: getLoadInses('project'),
+    LOAD_CONTEXTS: getLoadInses('context'),
     SAVE: async ({commit, state}, ins) => {
       let {data: savedIns} = await request({
         url: `${state.API}/${ins.model}s`,

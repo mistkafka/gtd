@@ -26,15 +26,24 @@ export default {
   computed: {
     ...mapGetters({
       action: 'activeAction',
-      projectMap: 'projectMap'
+      projectMap: 'projectMap',
+      contextMap: 'contextMap'
     }),
     ...mapState({
-      projects: 'projects'
+      projects: 'projects',
+      contexts: 'contexts'
     }),
     projectsOpt () {
       let opt = [{key: '', value: 'None'}]
 
       this.projects.forEach((_) => opt.push({key: _._id, value: _.title}))
+
+      return opt
+    },
+    contextsOpt () {
+      let opt = [{key: '', value: 'None'}]
+
+      this.contexts.forEach((_) => opt.push({key: _._id, value: _.title}))
 
       return opt
     },
@@ -77,6 +86,26 @@ export default {
       this.action.logs.push({
         type: 'field-change',
         filed: 'project',
+        date: new Date(),
+        from,
+        to,
+        note: ''
+      })
+
+      await this.$store.dispatch('UPDATE_MODEL', 'action')
+    },
+    async editedContext (to) {
+      if (this.action.context == to) {
+        return
+      }
+
+      let from = this.action.context
+      from = this.contextMap.has(from) ? this.contextMap[from].title : ''
+      to = this.contextMap.has(to) ? this.contextMap.get(to).title : ''
+
+      this.action.logs.push({
+        type: 'field-change',
+        filed: 'context',
         date: new Date(),
         from,
         to,

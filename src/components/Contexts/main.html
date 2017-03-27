@@ -1,0 +1,9 @@
+<group>
+    <cell
+        v-for="context in contexts"
+        :key="context._id"
+        :link="'/context/' + context._id + '/list'"
+        :title="context.title"
+    >
+    </cell>
+</group>
