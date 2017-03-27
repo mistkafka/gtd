@@ -1,0 +1,10 @@
+<group>
+    <cell
+        v-for="project in projects"
+        :key="project._id"
+        :link="'/project/' + project._id + '/list'"
+        :title="project.title"
+        @click.native="$store.commit('SET_REVIEW_MODE', true)"
+    >
+    </cell>
+</group>

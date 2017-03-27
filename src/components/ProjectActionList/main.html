@@ -1,4 +1,8 @@
 <div class="clear-group-border-top clear-cell-linkarrow">
+    <div v-if="$store.state.reviewMode" style="text-align: center;">
+        <h3>{{ `${reviewIndex} of ${reviews.length}` }}</h3>
+        <p>{{ `review ${reviewType} • ${reviewDate}` }}</p>
+    </div>
     <group v-if="!loading">
         <cell
             :title="project.title"
@@ -16,4 +20,22 @@
             </div>
         </cell>
     </group>
+    <tabbar v-if="$store.state.reviewMode">
+        <tabbar-item @click.native="$router.replace(prevReview)">
+            <span slot="label">Prev</span>
+        </tabbar-item>
+        <tabbar-item @click.native="$router.replace(nextReview)">
+            <span slot="label">Next</span>
+        </tabbar-item>
+        <tabbar-item @click.native="reviewDialogShow = true">
+            <span slot="label">Mark Reviewed</span>
+        </tabbar-item>
+    </tabbar>
+
+    <x-dialog v-model="reviewDialogShow" :hide-on-blur="true">
+        <group class="clear-group-border">
+            <x-textarea v-model="reviewNote" :height="200" placheholder="Note for this review(optional)"></x-textarea>
+        </group>
+        <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="markReviewed()">Submit</x-button>
+    </x-dialog>
 </div>

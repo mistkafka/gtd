@@ -4,7 +4,8 @@ import {
   XInput,
   Selector,
   Datetime,
-  XTextarea
+  XTextarea,
+  Checklist
 } from 'vux'
 
 
@@ -16,7 +17,8 @@ export default {
     XInput,
     Selector,
     Datetime,
-    XTextarea
+    XTextarea,
+    Checklist
   },
 
   data () {

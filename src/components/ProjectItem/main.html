@@ -1,6 +1,15 @@
-<group v-if="!loading">
-    <x-input v-model="project.title" type="text" placeholder="Untitled"></x-input>
-    <x-textarea v-model="project.description" placeholder="Description"></x-textarea>
-    <selector title="Status" v-model="project.status" :options="projectStatuses"></selector>
-    <datetime title="Due" v-model="project.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="project.dueDate = null"></datetime>
-</group>
+<div v-if="!loading">
+    <group title="Basic Info">
+        <x-input v-model="project.title" type="text" placeholder="Untitled"></x-input>
+        <x-textarea v-model="project.description" placeholder="Description"></x-textarea>
+        <selector title="Status" v-model="project.status" :options="projectStatuses"></selector>
+        <datetime title="Due" v-model="project.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="project.dueDate = null"></datetime>
+    </group>
+
+    <group title="Review Schemas">
+        <checklist
+            :options="['every day', 'every week', 'every month', 'every year']"
+            v-model="project.reviewSchemas"
+        ></checklist>
+    </group>
+</div>

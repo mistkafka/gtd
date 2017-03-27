@@ -26,7 +26,9 @@ const modelTpl = {
     status: 'Active',
     context: '',
     dueDate: '',
-    logs: []
+    logs: [],
+    reviewSchemas: ['every week'],
+    reviewEvents: []
   },
   context: {
     model: 'context',
@@ -63,7 +65,8 @@ const store = new Vuex.Store({
     },
     API: 'http://127.0.0.1:3000/api',
     loading: false,
-    editMode: false
+    editMode: false,
+    reviewMode: false
   },
 
   getters: {
@@ -105,7 +108,8 @@ const store = new Vuex.Store({
     actionMap: ({actions}) => actions.reduce((map, _) => map.set(_._id, _), new Map()),
     inbox: ({actions}) => actions.filter((_) => !_.project),
     projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id),
-    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id)
+    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id),
+    needReviewProject: ({ projects }) => projects.filter(_ => _.reviewEvents.length)
   },
   mutations: {
     registerTopActions (state, actions) {
@@ -143,6 +147,9 @@ const store = new Vuex.Store({
     },
     SET_EDIT_MODE: (state, editMode) => {
       state.editMode = editMode
+    },
+    SET_REVIEW_MODE: (state, val) => {
+      state.reviewMode = val
     }
   },
   actions: {
@@ -169,7 +176,13 @@ const store = new Vuex.Store({
       commit('PUSH_NEW_INS_TO_MODEL', savedIns)
     },
     UPDATE_MODEL: async ({state, getters}, model) => {
-      let ins = getters[`active${model.replace(/\w/, ch => ch.toUpperCase())}`]
+      let ins
+      if (typeof model === 'string') {
+        ins = getters[`active${model.replace(/\w/, ch => ch.toUpperCase())}`]
+      } else {
+        ins = model
+        model = ins.model
+      }
       await request({
         url: `${state.API}/${model}s/${ins._id}`,
         method: 'put',

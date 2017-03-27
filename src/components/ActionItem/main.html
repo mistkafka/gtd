@@ -20,7 +20,7 @@
                     v-model.lazy="noncountableLikeItemValue"
                     :placeholder="noncountableLikeItemPlacheholder"
                     :is-type="validateNoncountableLikeItemValue"></x-input>
-                <x-textarea v-model="log" :height="200" placeholder="Note(option)"></x-textarea>
+                <x-textarea v-model="log" :height="200" placeholder="Note(optional)"></x-textarea>
             </group>
             <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addItem">Submit</x-button>
         </x-dialog>

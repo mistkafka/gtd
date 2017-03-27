@@ -1,5 +1,6 @@
 <nav class="top-action-bar">
     <x-header
+        v-if="!$store.state.reviewMode"
         :left-options="topActions.left"
         :title="topActions.middle.title"
         :right-options="topActions.right"
@@ -11,5 +12,13 @@
 
         <a v-if="topActions.left.showBack === false" slot="left" @click="action('left')">{{ topActions.left.backText }}</a>
         <a slot="right" @click="action('right')">{{ topActions.right.title }}</a>
+    </x-header>
+
+    <x-header
+        v-if="$store.state.reviewMode"
+        @on-click-back="$router.go(-1)"
+        :left-options="{backText: 'Back'}"
+    >
+        Review
     </x-header>
 </nav>

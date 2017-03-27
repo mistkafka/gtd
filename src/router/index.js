@@ -13,6 +13,7 @@ import SettingsView from '../views/SettingsView'
 import Contexts from '../components/Contexts'
 import Context from '../components/ContextItem'
 import ContextActionList from '../components/ContextActionList'
+import ReviewView from '../views/ReviewView'
 
 export default new Router({
   mode: 'history',
@@ -29,6 +30,7 @@ export default new Router({
     { path: '/contexts', component: Contexts },
     { name: '+context', path: '/context/new', component: Context },
     { path: '/context/:id', component: Context },
-    { path: '/context/:id/list', component: ContextActionList }
+    { path: '/context/:id/list', component: ContextActionList },
+    { path: '/review', component: ReviewView }
   ]
 })
