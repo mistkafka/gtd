@@ -5,7 +5,10 @@ import {
   Divider,
   Timeline,
   TimelineItem,
-  dateFormat
+  dateFormat,
+  XTextarea,
+  XDialog,
+  XButton
 } from 'vux'
 
 export default {
@@ -17,7 +20,17 @@ export default {
     Divider,
     Timeline,
     TimelineItem,
-    dateFormat
+    dateFormat,
+    XTextarea,
+    XDialog,
+    XButton
+  },
+
+  data () {
+    return {
+      addLogNoteShow: false,
+      logNote: ''
+    }
   },
 
   computed: {
@@ -50,7 +63,7 @@ export default {
       return rslt;
     },
     timeline () {
-      return this.progressItems
+      return this.action.logs
         .map(_ => {
           _.date = new Date(_.date)
           return _
@@ -123,5 +136,14 @@ export default {
     increaseStore () {
       this.$emit('increase')
     },
+    showAddLogNoteDialog (log) {
+      this.addingNoteLog = log
+      this.addLogNoteShow = true
+    },
+    async addLogNote () {
+      this.addingNoteLog.note = this.logNote
+      this.addLogNoteShow = false
+      await this.$store.dispatch('UPDATE_MODEL', 'action')
+    }
   }
 }

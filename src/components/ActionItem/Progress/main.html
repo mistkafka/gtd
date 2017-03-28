@@ -17,9 +17,28 @@
     <divider>Timeline</divider>
     <timeline>
         <timeline-item v-for="(item, index) in timeline" :key="index">
-            <h4 :class="{recent: index === 0}" v-html="item.value"></h4>
-            <p :class="{recent: index === 0}">{{ item.date }}</p>
-            <p v-if="item.log">{{ item.log }}</p>
+            <div v-if="item.type === 'progress'">
+                <h4 :class="{recent: index === 0}" v-html="item.value"></h4>
+                <p :class="{recent: index === 0}">{{ item.date }}</p>
+                <p v-if="item.note">{{ item.note }}</p>
+            </div>
+            <div v-if="item.type === 'field-change'">
+                <h4 :class="{recent: index === 0}">
+                    <label>{{ item.field }}:</label>
+                    <s>{{ item.from }}</s>
+                    <span> --> {{ item.to }}</span>
+                </h4>
+                <p :class="{recent: index === 0}">{{ item.date }}</p>
+                <p v-if="item.note">{{ item.note }}</p>
+                <p v-if="!item.note"><a href="#" @click.prevent="showAddLogNoteDialog(item)">Note</a></p>
+            </div>
         </timeline-item>
     </timeline>
+    <x-dialog v-model="addLogNoteShow" :hide-on-blur="true">
+        <group>
+            <x-textarea v-model="logNote" placeholder="Note(required)">
+            </x-textarea>
+        </group>
+        <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addLogNote">Add Note</x-button>
+    </x-dialog>
 </div>

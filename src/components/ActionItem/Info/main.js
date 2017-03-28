@@ -68,7 +68,7 @@ export default {
 
       this.action.logs.push({
         type: 'field-change',
-        filed: field,
+        field: field,
         date: new Date(),
         from: this.action[field],
         to: to,
@@ -86,12 +86,12 @@ export default {
       }
 
       let from = this.action.project
-      from = this.projectMap.has(from) ? this.projectMap[from].title : ''
+      from = this.projectMap.has(from) ? this.projectMap.get(from).title : ''
       to = this.projectMap.has(to) ? this.projectMap.get(to).title : ''
 
       this.action.logs.push({
         type: 'field-change',
-        filed: 'project',
+        field: 'project',
         date: new Date(),
         from,
         to,
@@ -114,7 +114,7 @@ export default {
 
       this.action.logs.push({
         type: 'field-change',
-        filed: 'context',
+        field: 'context',
         date: new Date(),
         from,
         to,
