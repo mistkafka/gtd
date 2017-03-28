@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     editMode () {
-      return !!this.project.id
+      return !!this.project._id
     },
     ...mapGetters({
       projectMap: 'projectMap',

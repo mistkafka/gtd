@@ -17,7 +17,7 @@
     <divider>Timeline</divider>
     <timeline>
         <timeline-item v-for="(item, index) in timeline" :key="index">
-            <h4 :class="{recent: index === 0}">{{ item.value }}</h4>
+            <h4 :class="{recent: index === 0}" v-html="item.value"></h4>
             <p :class="{recent: index === 0}">{{ item.date }}</p>
             <p v-if="item.log">{{ item.log }}</p>
         </timeline-item>

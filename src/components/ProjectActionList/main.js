@@ -40,10 +40,10 @@ export default {
       return `/project/${this.reviews[index]._id}/list`
     },
     reviewType: function () {
-      return this.project.reviewEvents[0].type
+      return (this.project.reviewEvents[0] || {}).type
     },
     reviewDate: function () {
-      return this.project.reviewEvents[0].date
+      return (this.project.reviewEvents[0] || {}).date
     }
   },
   methods: {

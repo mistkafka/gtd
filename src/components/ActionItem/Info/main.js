@@ -62,6 +62,9 @@ export default {
       if (this.action[field] == to) {
         return
       }
+      if (!this.$store.state.editMode) {
+        return
+      }
 
       this.action.logs.push({
         type: 'field-change',
@@ -76,6 +79,9 @@ export default {
     },
     async editedProject (to) {
       if (this.action.project == to) {
+        return
+      }
+      if (!this.$store.state.editMode) {
         return
       }
 
@@ -96,6 +102,9 @@ export default {
     },
     async editedContext (to) {
       if (this.action.context == to) {
+        return
+      }
+      if (!this.$store.state.editMode) {
         return
       }
 
