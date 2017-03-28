@@ -16,7 +16,7 @@ const modelTpl = {
     context: '',
     dueDate: '',
     target: 1,
-    processItems: [],
+    logs: [],
     status: 'Active'
   },
   project: {

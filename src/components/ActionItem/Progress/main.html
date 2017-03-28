@@ -1,16 +1,16 @@
 <div>
     <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border">
         <div v-if="action.type == 'Times'" style="text-align: center;">
-            <label>{{ timesProcess }}</label>
+            <label>{{ timesProgress }}</label>
         </div>
 
         <template v-if="action.type == 'Accumulate' || action.type == 'Store'">
             <div style="width: 100px; height: 100px; margin: 0 auto;">
-                <x-circle :percent="noncountableLikeProcessPercent" :stroke-width="10" stroke-color="#04BE02">
-                    <span>{{ noncountableLikeProcessPercent }}%</span>
+                <x-circle :percent="noncountableLikeProgressPercent" :stroke-width="10" stroke-color="#04BE02">
+                    <span>{{ noncountableLikeProgressPercent }}%</span>
                 </x-circle>
             </div>
-            <p style="text-align: center;">{{ process }} / {{ action.target }}</p>
+            <p style="text-align: center;">{{ progress }} / {{ action.target }}</p>
         </template>
     </group>
 

@@ -9,7 +9,7 @@ import {
 } from 'vux'
 
 export default {
-  name: 'ActionProcess',
+  name: 'ActionProgress',
 
   components: {
     Group,
@@ -24,17 +24,20 @@ export default {
     ...mapGetters({
       action: 'activeAction'
     }),
-    process () {
+    progressItems () {
+      return this.action.logs.filter(_ => _.type === 'progress')
+    },
+    progress () {
       switch (this.action.type) {
         case 'Accumulate':
         case 'Store':
-          return this.noncountableLikeProcess
+          return this.noncountableLikeProgress
         case 'Times':
-          return this.processItems.length
+          return this.progressItems.length
       }
     },
-    noncountableLikeProcess () {
-      let sum = this.action.processItems.reduce((sum, item) => {
+    noncountableLikeProgress () {
+      let sum = this.progressItems.reduce((sum, item) => {
         sum += item.value
         return sum
       }, 0)
@@ -42,12 +45,12 @@ export default {
       return sum;
 
     },
-    noncountableLikeProcessPercent () {
-      let rslt = Number.parseInt(this.noncountableLikeProcess / this.action.target * 100);
+    noncountableLikeProgressPercent () {
+      let rslt = Number.parseInt(this.noncountableLikeProgress / this.action.target * 100);
       return rslt;
     },
     timeline () {
-      return this.action.processItems
+      return this.progressItems
         .map(_ => {
           _.date = new Date(_.date)
           return _
@@ -62,14 +65,14 @@ export default {
     // TODO: 迁移块: start
     done: {
       get () {
-        let processItems = this.action.processItems
-        if (!processItems.length) {
+        let progressItems = this.progressItems
+        if (!progressItems.length) {
           return false
         }
-        return processItems[processItems.length - 1].done
+        return progressItems[progressItems.length - 1].done
       },
       set (val) {
-        let processItems = this.action.processItems
+        let progressItems = this.progressItems
         let item = {
           done: true,
           date: (new Date()).toString(),
@@ -79,18 +82,18 @@ export default {
           item.done = false
         }
 
-        processItems.push(item)
+        progressItems.push(item)
       }
     },
-    timesProcess () {
-      return `${this.action.processItems.length}/${this.action.target}`
+    timesProgress () {
+      return `${this.progressItems.length}/${this.action.target}`
     },
     timesDone () {
-      return this.action.processItems.length >= this.action.target;
+      return this.progressItems.length >= this.action.target;
     },
     noncountableLikeDone () {
-      // TODO: 迁移到Process里
-      // return this.noncountableLikeProcess >= this.action.target
+      // TODO: 迁移到Progress里
+      // return this.noncountableLikeProgress >= this.action.target
       return true;
     },
     actionDone () {

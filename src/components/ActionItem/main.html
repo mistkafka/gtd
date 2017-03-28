@@ -20,21 +20,21 @@
                     v-model.lazy="noncountableLikeItemValue"
                     :placeholder="noncountableLikeItemPlacheholder"
                     :is-type="validateNoncountableLikeItemValue"></x-input>
-                <x-textarea v-model="log" :height="200" placeholder="Note(optional)"></x-textarea>
+                <x-textarea v-model="progressNote" :height="200" placeholder="Note(optional)"></x-textarea>
             </group>
             <x-button type="primary" style="border-radius: 0px;" @click.native.prevent="addItem">Submit</x-button>
         </x-dialog>
 
         <tab :line-width=2.5 active-color='#3cc51f' v-model="tabSelected">
             <tab-item class="vux-center" :key="0">Information</tab-item>
-            <tab-item class="vux-center" :key="1">Process</tab-item>
+            <tab-item class="vux-center" :key="1">Progress</tab-item>
             <tab-item class="vux-center" :key="2">Description</tab-item>
         </tab>
         <transition name="fade" mode="out-in">
             <keep-alive>
                 <template>
                     <ActionInfo v-if="tabSelected === 0" />
-                    <ActionProcess v-if="tabSelected === 1"/>
+                    <ActionProgress v-if="tabSelected === 1"/>
                     <ActionDescription v-if="tabSelected === 2"/>
                 </template>
             </keep-alive>

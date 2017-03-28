@@ -12,7 +12,7 @@ import {
 import throttleProxy from '../../utils/proxy'
 const throttleProxy_700 = throttleProxy(700)
 
-import ActionProcess from './Process'
+import ActionProgress from './Progress'
 import ActionInfo from './Info'
 import ActionDescription from './Description'
 
@@ -44,7 +44,7 @@ export default {
     TabItem,
     Actionsheet,
 
-    ActionProcess,
+    ActionProgress,
     ActionInfo,
     ActionDescription
   },
@@ -52,7 +52,7 @@ export default {
     return {
       loading: true,
       noncountableLikeItemValue: 0,
-      log: '',
+      progressNote: '',
       tabSelected: 0,
       dialogShow: false,
       showMenus: false,
@@ -132,16 +132,16 @@ export default {
       let item = {
         value: this.todoitem,
         date: (new Date()).toString(),
-        log: this.log
+        note: this.progressNote
       }
-      this.addProcessItem(item)
+      this.addProgressItem(item)
     },
     addTimesItem () {
       let item = {
         date: (new Date()).toString(),
-        log: this.log
+        note: this.progressNote
       }
-      this.addProcessItem(item)
+      this.addProgressItem(item)
     },
     addNoncountableLikeItem () {
       if (!this.validateNoncountableLikeItemValue().valid) {
@@ -151,9 +151,9 @@ export default {
       let item = {
         value: Number(this.noncountableLikeItemValue),
         date: (new Date()).toString(),
-        log: this.log
+        note: this.progressNote
       }
-      this.addProcessItem(item)
+      this.addProgressItem(item)
 
       this.noncountableLikeItemValue = 0
     },
@@ -190,7 +190,7 @@ export default {
           this.addTodoDoneItem()
           break;
       }
-      this.log = ''
+      this.progressNote = ''
       this.dialogShow = false
     },
     startEditField (field) {
@@ -216,7 +216,7 @@ export default {
         field: this.editingField,
         date: new Date(),
         from,
-        to,
+        tojkjj,
         note: ''
       })
       this.editCache = null
@@ -224,8 +224,9 @@ export default {
 
       await this.$store.dispatch('UPDATE_MODEL', 'action')
     },
-    async addProcessItem (item) {
-      this.action.processItems.push(item)
+    async addProgressItem (item) {
+      item.type = 'progress'
+      this.action.logs.push(item)
       await this.$store.dispatch('UPDATE_MODEL', 'action')
     }
   },
