@@ -6,6 +6,10 @@ import store from './store'
 import router from './router'
 import { AlertPlugin } from 'vux'
 
+import 'vue-event-calendar/dist/style.css'
+import vueEventCalendar from '../calendar/src/'
+Vue.use(vueEventCalendar, {locale: 'en'})
+
 Vue.use(AlertPlugin)
 
 /* eslint-disable no-new */

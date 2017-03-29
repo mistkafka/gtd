@@ -7,7 +7,8 @@ import {
   XButton,
   Tab,
   TabItem,
-  Actionsheet
+  Actionsheet,
+  dateFormat
 } from 'vux'
 import throttleProxy from '../../utils/proxy'
 const throttleProxy_700 = throttleProxy(700)
@@ -95,6 +96,10 @@ export default {
       this.loading = true
       this.SET_ACTIVE_ID({ id: id, type: 'action'})
       this.loading = false
+
+      if (!this.$store.state.editMode) {
+        initInsByQuery.call(this)
+      }
     },
     registerAction () {
       let actions = {}
@@ -234,5 +239,12 @@ export default {
   // hooks
   beforeMount () {
     this.startCycle(this.$route.params.id)
+  }
+}
+
+function initInsByQuery () {
+  let query = this.$route.query
+  if (query.dueDate) {
+    this.action.dueDate = dateFormat(new Date(query.dueDate), 'YYYY-MM-DD HH:mm:ss')
   }
 }
