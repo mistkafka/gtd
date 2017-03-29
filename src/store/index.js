@@ -34,7 +34,7 @@ const modelTpl = {
     model: 'context',
     title: '',
     description: '',
-    location: '',
+    location: null,
     device: ''
   }
 }

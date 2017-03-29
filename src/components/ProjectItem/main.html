@@ -1,15 +1,36 @@
 <div v-if="!loading">
     <group title="Basic Info">
-        <x-input v-model="project.title" type="text" placeholder="Untitled"></x-input>
-        <x-textarea v-model="project.description" placeholder="Description"></x-textarea>
-        <selector title="Status" v-model="project.status" :options="projectStatuses"></selector>
-        <datetime title="Due" v-model="project.dueDate" format="YYYY-MM-DD HH:mm" disable-past="true" placeholder="None" clear-text="Clear" @on-clear="project.dueDate = null"></datetime>
+        <x-input
+            v-model="project.title"
+            type="text"
+            placeholder="Untitled"
+            @on-focus="startEditField('title')"
+            @on-blur="editedInputField()"
+        ></x-input>
+        <x-textarea
+            v-model="project.description"
+            placeholder="Description"
+            @on-focus="startEditField('description')"
+            @on-blur="editedInputField()"
+        ></x-textarea>
+        <selector title="Status" v-model="project.status" :options="projectStatuses" @on-change="editedField('status', $event)"></selector>
+        <datetime
+            title="Due"
+            v-model="project.dueDate"
+            format="YYYY-MM-DD HH:mm"
+            disable-past="true"
+            placeholder="None"
+            clear-text="Clear"
+            @on-clear="project.dueDate = null"
+            @on-change="editedField('dueDate', $event)"
+        ></datetime>
     </group>
 
     <group title="Review Schemas">
         <checklist
             :options="['every day', 'every week', 'every month', 'every year']"
             v-model="project.reviewSchemas"
+            @on-change="editedField('reviewSchemas', $event)"
         ></checklist>
     </group>
 </div>

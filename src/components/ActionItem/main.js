@@ -221,7 +221,7 @@ export default {
         field: this.editingField,
         date: new Date(),
         from,
-        tojkjj,
+        to,
         note: ''
       })
       this.editCache = null

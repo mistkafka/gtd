@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     startCycle (id) {
+      this.$store.commit('SET_EDIT_MODE', id ? true : false)
       this.load(id)
       this.registerAction()
     },
@@ -86,6 +87,31 @@ export default {
         'SET_ACTIVE_ID'
       ]
     ),
+    async editedField (field, to) {
+      if (this.project[field] == to) {
+        return
+      }
+      if (!this.$store.state.editMode) {
+        return
+      }
+
+      await this.$store.dispatch('UPDATE_MODEL', 'project')
+    },
+    startEditField (field) {
+      if (!this.$store.state.editMode) {
+        return
+      }
+    },
+    async editedInputField () {
+      if (!this.$store.state.editMode) {
+        return
+      }
+
+      this.editCache = null
+      this.editingField = null
+
+      await this.$store.dispatch('UPDATE_MODEL', 'project')
+    }
   },
 
   // hooks

@@ -1,0 +1,6 @@
+<div style="width: 100vw; height: 350px;" v-if="center">
+    <el-amap :vid="'amap-vue'" :center="center" :zoom="zoom" :map-manager="amapManager" :plugin="plugin" :events="events">
+        <el-amap-marker v-if="marker" :position="marker"></el-amap-marker>
+    </el-amap>
+    <loading v-model="locationing" text="Location..."></loading>
+</div>

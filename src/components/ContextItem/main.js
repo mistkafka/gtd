@@ -2,8 +2,10 @@ import { mapGetters, mapMutations } from 'vuex'
 import {
   Group,
   XInput,
-  XTextarea
+  XTextarea,
+  Cell
 } from 'vux'
+import AMap from '../../components/Map'
 
 
 export default {
@@ -12,12 +14,15 @@ export default {
   components: {
     Group,
     XInput,
-    XTextarea
+    XTextarea,
+    Cell,
+
+    AMap
   },
 
   data () {
     return {
-      loading: true
+      loading: true,
     }
   },
   watch: {
@@ -27,15 +32,19 @@ export default {
   },
   computed: {
     editMode () {
-      return !!this.context.id
+      return !!this.context._id
     },
     ...mapGetters({
       contextMap: 'contextMap',
       context: 'activeContext'
-    })
+    }),
+    location () {
+      return this.context.location ? this.context.location.join(',') : ''
+    }
   },
   methods: {
     startCycle (id) {
+      this.$store.commit('SET_EDIT_MODE', id ? true : false)
       this.load(id)
       this.registerAction()
     },
@@ -79,6 +88,33 @@ export default {
         'SET_ACTIVE_ID'
       ]
     ),
+    async editedLocation (location) {
+      this.context.location = location
+      await this.$store.dispatch('UPDATE_MODEL', 'context')
+    },
+    startEditField (field) {
+      if (!this.$store.state.editMode) {
+        return
+      }
+
+      this.editingField = field
+      this.editCache = this.context[field]
+    },
+    async editedField () {
+      if (!this.$store.state.editMode) {
+        return
+      }
+      let to = this.context[this.editingField]
+      let from = this.editCache
+      if (to === from) {
+        return
+      }
+
+      this.editCache = null
+      this.editingField = null
+
+      await this.$store.dispatch('UPDATE_MODEL', 'context')
+    },
   },
 
   // hooks

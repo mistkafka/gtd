@@ -1,4 +1,23 @@
-<group v-if="!loading">
-    <x-input v-model="context.title" type="text" placeholder="Untitled"></x-input>
-    <x-textarea v-model="context.description" placeholder="Description"></x-textarea>
-</group>
+<div v-if="!loading">
+    <group>
+        <x-input
+            v-model="context.title"
+            placeholder="Untitled"
+            @on-focus="startEditField('title')"
+            @on-blur="editedField()"
+        ></x-input>
+        <x-textarea
+            v-model="context.description"
+            placeholder="Description"
+            @on-focus="startEditField('description')"
+            @on-blur="editedField()"
+        ></x-textarea>
+    </group>
+    <group title="Location">
+        <a-map
+            @confirm="editedLocation"
+            :savedMark="context.location"
+        >
+        </a-map>
+    </group>
+</div>
