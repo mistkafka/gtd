@@ -12,7 +12,7 @@ export default {
       let actions = {
         left: { showBack: false },
         middle: { title: 'Home', action: null },
-        right: { title: 'Settings', action: this.toSettings }
+        right: { title: 'User', action: this.toSettings }
       }
 
       this.registerTopActions(actions)

@@ -58,11 +58,7 @@ const store = new Vuex.Store({
       middle: {},
       right: {}
     },
-    // login: null,
-    login: {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pc3RrYWZrYSIsImlkIjoiNThkNDI2NTVjNjk2YzkxODA3MDM3MTJhIiwiaWF0IjoxNDkwNTQwMjM3fQ.srVasQTEZ1vdfleX6OcL17-MsO7gHuqZK2F2XGbyNIk',
-      username: 'mistkafka'
-    },
+    login: null,
     API: 'http://127.0.0.1:3000/api',
     loading: false,
     editMode: false,

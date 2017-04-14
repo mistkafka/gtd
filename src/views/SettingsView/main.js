@@ -27,8 +27,11 @@ export default {
     registerAction () {
       let actions = {
         left: { backText: 'Home', action: this.toHome},
-        middle: { title: 'Settings', action: null },
+        middle: { title: 'User', action: null },
         right: { title: '', action: null }
+      }
+      if (this.$store.state.login) {
+        actions.right = {title: 'Logout', action: this.logout}
       }
 
       this.registerTopActions(actions)
@@ -61,7 +64,11 @@ export default {
 
       this.SET_LOGIN({username: this.username, token})
       await this.$store.dispatch('LOAD')
-    }
+    },
+    logout () {
+      this.$store.commit('SET_LOGIN', null)
+      this.registerAction()
+    },
   },
 
   // hooks
