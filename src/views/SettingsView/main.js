@@ -62,10 +62,14 @@ export default {
         password: this.password
       })
 
-      this.SET_LOGIN({username: this.username, token})
+      let login = {username: this.username, token}
+      window.localStorage.setItem('login', JSON.stringify(login))
+
+      this.SET_LOGIN(login)
       await this.$store.dispatch('LOAD')
     },
     logout () {
+      window.localStorage.setItem('login', null)
       this.$store.commit('SET_LOGIN', null)
       this.registerAction()
     },

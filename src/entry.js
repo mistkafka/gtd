@@ -26,9 +26,15 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
-  beforeCreate () {
+  async beforeCreate () {
+    let savedLogin = window.localStorage.getItem('login')
+    if (savedLogin) {
+      savedLogin = savedLogin ? JSON.parse(savedLogin) : null
+      this.$store.commit('SET_LOGIN', savedLogin)
+    }
+
     if (this.$store.state.login) {
-      this.$store.dispatch('LOAD')
+      await this.$store.dispatch('LOAD')
     }
   }
 })

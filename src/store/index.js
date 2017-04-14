@@ -123,14 +123,18 @@ const store = new Vuex.Store({
     },
     SET_ACTIONS: (state, actions) => {
       actions = actions.map(_ => {
-        _.dueDate = dateFormat(new Date(_.dueDate), 'YYYY-MM-DD HH:mm:ss')
+        if (_.dueDate) {
+          _.dueDate = dateFormat(new Date(_.dueDate), 'YYYY-MM-DD HH:mm:ss')
+        }
         return _
       })
       state.actions = actions
     },
     SET_PROJECTS: (state, projects) => {
       projects = projects.map(_ => {
-        _.dueDate = dateFormat(new Date(_.dueDate), 'YYYY-MM-DD HH:mm:ss')
+        if (_.dueDate) {
+          _.dueDate = dateFormat(new Date(_.dueDate), 'YYYY-MM-DD HH:mm:ss')
+        }
         return _
       })
       state.projects = projects
