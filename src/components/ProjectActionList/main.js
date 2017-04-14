@@ -44,6 +44,9 @@ export default {
     },
     reviewDate: function () {
       return (this.project.reviewEvents[0] || {}).date
+    },
+    remainings () {
+      return this.projectActions(this.project._id).filter(_ => _.status === 'Active').length
     }
   },
   methods: {

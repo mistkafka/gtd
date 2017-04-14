@@ -7,7 +7,7 @@
         <cell
             :title="project.title"
             :link="'/project/' + project._id"
-            inline-desc="4 itmes"
+            :inline-desc="remainings + ' remainings'"
             :is-link="false"
         ></cell>
         <cell v-for="action in projectActions(project._id)"
@@ -15,9 +15,6 @@
               :link="'/action/' + action._id"
               :title="action.title"
         >
-            <div slots="default" style="display: inline-block" :value="'haha'">
-                <input type="checkbox" />
-            </div>
         </cell>
     </group>
     <tabbar v-if="$store.state.reviewMode">
