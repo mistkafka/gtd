@@ -10,7 +10,7 @@ RUN npm install && \
 
 WORKDIR /usr/src/app
 RUN rm -rf src && \
-    cnpm install
+    npm install
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]
