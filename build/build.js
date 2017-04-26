@@ -20,6 +20,7 @@ shell.mkdir('-p', assetsPath)
 shell.config.silent = true
 shell.cp('-R', 'static/*', assetsPath)
 shell.config.silent = false
+shell.cp('-R', './build/server/*', config.build.assetsRoot)
 
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()

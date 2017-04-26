@@ -59,7 +59,7 @@ const store = new Vuex.Store({
       right: {}
     },
     login: null,
-    API: 'http://127.0.0.1:3000/api',
+    API: process.env.API_BASEURL,
     loading: false,
     editMode: false,
     reviewMode: false
