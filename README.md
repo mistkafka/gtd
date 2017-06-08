@@ -1,30 +1,6 @@
-# track-gtd
+# GTD Tracker Web
+---
 
-> A GTD web app with powerful log feature.
+GTD Trakcer是一款增加了日志功能的GTD应用。它的特点是几乎可以对所有的操作进行日志记录，方便用户在Review的时候参考。除此之外，GTD Trakcer还新增了一种任务类型，用来更好的描述类似“存钱任务”、“跑步任务”这样目标值是“不可数”的任务。
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+自己造一个GTD轮子的原因在于现有的其他GTD应用都不能很好的提供，希望自己探索出一个可行的方案来。
