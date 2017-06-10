@@ -97,7 +97,11 @@ export default {
       this.reviewDialogShow = false
       this.reviewNote = ''
       this.$router.replace(this.nextReview)
-    }
+    },
+    // cover like 'Hold On' --> 'action-hold-on'
+    getStatusColorClass (status) {
+      return 'action-' + status.toLowerCase().split(' ').join('-');
+    },
   },
   watch: {
     '$route': function(to, from) {

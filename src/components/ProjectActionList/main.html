@@ -15,6 +15,7 @@
               :link="'/action/' + action._id"
               :title="action.title"
         >
+          <span slot :class="getStatusColorClass(action.status)">{{ action.status }}</span>
         </cell>
     </group>
     <tabbar v-if="$store.state.reviewMode">

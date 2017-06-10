@@ -1,7 +1,8 @@
 <group>
-    <cell v-for="action in inbox" :key="action._id"
-          :title="action.title"
-          :link="'/action/' + action._id"
-    >
-    </cell>
+  <cell v-for="action in inbox" :key="action._id"
+        :title="action.title"
+        :link="'/action/' + action._id"
+  >
+    <span slot :class="getStatusColorClass(action.status)">{{ action.status }}</span>
+  </cell>
 </group>
