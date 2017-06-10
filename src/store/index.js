@@ -17,7 +17,8 @@ const modelTpl = {
     dueDate: '',
     target: 1,
     logs: [],
-    status: 'Active'
+    status: 'Active',
+    isDeleted: false,
   },
   project: {
     model: 'project',
@@ -28,7 +29,8 @@ const modelTpl = {
     dueDate: '',
     logs: [],
     reviewSchemas: ['every week'],
-    reviewEvents: []
+    reviewEvents: [],
+    isDeleted: false,
   },
   context: {
     model: 'context',
@@ -50,6 +52,8 @@ const store = new Vuex.Store({
     'active/actionid': null,
     'active/projectid': null,
     'active/contextid': null,
+    actionStatuses: ['Active', 'Completed', 'Dropped'],
+    projectStatuses: ['Active', 'On Hold', 'Completed', 'Dropped'],
     actions: [],
     projects: [],
     contexts: [],
@@ -102,9 +106,9 @@ const store = new Vuex.Store({
     projectMap: ({projects}) => projects.reduce((map, _) => map.set(_._id, _), new Map()),
     contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_._id, _), new Map()),
     actionMap: ({actions}) => actions.reduce((map, _) => map.set(_._id, _), new Map()),
-    inbox: ({actions}) => actions.filter((_) => !_.project),
-    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id),
-    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id),
+    inbox: ({actions}) => actions.filter((_) => !_.project).filter((_) => !_.isDeleted),
+    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id).filter((_) => !_.isDeleted),
+    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id).filter((_) => !_.isDeleted),
     needReviewProject: ({ projects }) => projects.filter(_ => _.reviewEvents.length)
   },
   mutations: {

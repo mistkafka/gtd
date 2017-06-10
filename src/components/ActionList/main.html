@@ -1,0 +1,24 @@
+<swipeout>
+  <swipeout-item v-for="action in actions"
+                 :key="action._id"
+                 @on-open="asyncSetProp('hasSwipeoutItemOpened', true)"
+                 @on-close="asyncSetProp('hasSwipeoutItemOpened', false)"
+                 @click.native="onSwipeoutItemClick(action)"
+                 class="action-item"
+  >
+    <div slot="left-menu">
+      <swipeout-button @click.native="updateActionProp(action, 'isDeleted', true)" style="background: red;">
+        Delete
+      </swipeout-button>
+    </div>
+    <div slot="content" class="action-item-content">
+      <span>{{ action.title }}</span>
+      <span :class="getStatusColorClass(action.status)">{{ action.status }}</span>
+    </div>
+    <div slot="right-menu">
+      <swipeout-button @click.native="updateActionProp(action, 'status', 'Active')" v-if="action.status !== 'Active'"style="background: red;">Active</swipeout-button>
+      <swipeout-button @click.native="updateActionProp(action, 'status', 'Completed')" v-if="action.status !== 'Completed'"style="background: green;">Completed</swipeout-button>
+      <swipeout-button @click.native="updateActionProp(action, 'status', 'Dropped')" v-if="action.status !== 'Dropped'"style="background: gray;">Dropped</swipeout-button>
+    </div>
+  </swipeout-item>
+</swipeout>

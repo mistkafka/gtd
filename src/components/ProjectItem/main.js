@@ -24,7 +24,6 @@ export default {
   data () {
     return {
       loading: true,
-      projectStatuses: ['Active', 'On Hold', 'Completed', 'Dropped']
     }
   },
   watch: {

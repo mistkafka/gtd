@@ -10,14 +10,12 @@
             :inline-desc="remainings + ' remainings'"
             :is-link="false"
         ></cell>
-        <cell v-for="action in projectActions(project._id)"
-              :key="action._id"
-              :link="'/action/' + action._id"
-              :title="action.title"
-        >
-          <span slot :class="getStatusColorClass(action.status)">{{ action.status }}</span>
-        </cell>
     </group>
+    <action-list
+      v-if="!loading"
+      :actions="projectActions(project._id)"
+    >
+    </action-list>
     <tabbar v-if="$store.state.reviewMode">
         <tabbar-item @click.native="$router.replace(prevReview)">
             <span slot="label">Prev</span>

@@ -1,11 +1,9 @@
 import { mapGetters, mapMutations } from 'vuex'
-import { Cell, Group } from 'vux'
-
+import ActionList from '../ActionList'
 export default {
   name: 'Inbox',
   components: {
-    Cell,
-    Group
+    ActionList,
   },
   computed: {
     ...mapGetters({
@@ -28,10 +26,6 @@ export default {
     toNewAction () {
       this.$router.push('/action/new')
     },
-    // cover like 'Hold On' --> 'action-hold-on'
-    getStatusColorClass (status) {
-      return 'action-' + status.toLowerCase().split(' ').join('-');
-    }
   },
   beforeMount () {
     this.registerAction()
