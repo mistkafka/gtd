@@ -27,6 +27,10 @@ export default {
     },
     toNewAction () {
       this.$router.push('/action/new')
+    },
+    // cover like 'Hold On' --> 'action-hold-on'
+    getStatusColorClass (status) {
+      return 'action-' + status.toLowerCase().split(' ').join('-');
     }
   },
   beforeMount () {
