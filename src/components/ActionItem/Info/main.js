@@ -11,8 +11,7 @@ export default {
 
   data () {
     return {
-      actionTypes: ['Todo/Done', 'Times', 'Accumulate', 'Store'],
-      statuses: ['Active', 'Completed', 'Dropped']
+      actionTypes: ['Todo/Done', 'Times', 'Accumulate', 'Store']
     }
   },
 

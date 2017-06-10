@@ -1,5 +1,5 @@
 <group label-align="left" label-width="4em" label-margin-right="2em" class="clear-group-border-top">
-    <selector title="Status" v-model="action.status" @on-change="editedField('status', $event)" :options="statuses"></selector>
+    <selector title="Status" v-model="action.status" @on-change="editedField('status', $event)" :options="$store.state.actionStatuses"></selector>
     <selector title="Type" v-model="action.type" @on-change="editedField('type', $event)" :options="actionTypes"></selector>
     <selector title="Context" v-model="action.context" :options="contextsOpt" @on-change="editedContext"></selector>
     <selector title="Project" v-model="action.project" :options="projectsOpt" @on-change="editedProject"></selector>

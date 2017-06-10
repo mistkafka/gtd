@@ -1,5 +1,6 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import { Cell, Group, Tabbar, TabbarItem, XDialog, XTextarea, XButton } from 'vux'
+import ActionList from '../ActionList'
 
 export default {
   name: 'ProjectActionList',
@@ -10,7 +11,8 @@ export default {
     TabbarItem,
     XDialog,
     XTextarea,
-    XButton
+    XButton,
+    ActionList,
   },
   data () {
     return {
@@ -97,10 +99,6 @@ export default {
       this.reviewDialogShow = false
       this.reviewNote = ''
       this.$router.replace(this.nextReview)
-    },
-    // cover like 'Hold On' --> 'action-hold-on'
-    getStatusColorClass (status) {
-      return 'action-' + status.toLowerCase().split(' ').join('-');
     },
   },
   watch: {
