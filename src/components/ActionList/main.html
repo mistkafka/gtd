@@ -1,4 +1,5 @@
 <swipeout>
+  <transition-group name="list" tag="div">
   <swipeout-item v-for="action in actions"
                  :key="action._id"
                  @on-open="asyncSetProp('hasSwipeoutItemOpened', true)"
@@ -7,7 +8,7 @@
                  class="action-item"
   >
     <div slot="left-menu">
-      <swipeout-button @click.native="updateActionProp(action, 'isDeleted', true)" style="background: red;">
+      <swipeout-button class="task-button-delete" @click.native="onDeleteActionClick(action, $event)" style="background: red;">
         Delete
       </swipeout-button>
     </div>
@@ -15,10 +16,11 @@
       <span>{{ action.title }}</span>
       <span :class="getStatusColorClass(action.status)">{{ action.status }}</span>
     </div>
-    <div slot="right-menu">
+    <div slot="right-menu" class="task-button-status">
       <swipeout-button @click.native="updateActionProp(action, 'status', 'Active')" v-if="action.status !== 'Active'"style="background: red;">Active</swipeout-button>
       <swipeout-button @click.native="updateActionProp(action, 'status', 'Completed')" v-if="action.status !== 'Completed'"style="background: green;">Completed</swipeout-button>
       <swipeout-button @click.native="updateActionProp(action, 'status', 'Dropped')" v-if="action.status !== 'Dropped'"style="background: gray;">Dropped</swipeout-button>
     </div>
   </swipeout-item>
+  </transition-group>
 </swipeout>

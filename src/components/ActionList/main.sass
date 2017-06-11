@@ -14,3 +14,17 @@
   padding: 10px 15px
   display: flex
   justify-content: space-between
+
+.list-enter-active, .list-leave-active
+  transition: all 0.3s
+  .task-button-delete
+    transition: all 0.3s
+
+.list-enter, .list-leave-to
+  height: 0
+  .task-button-status
+    display: none
+  .task-button-delete
+    width: 100% !important
+  .vux-swipeout-content
+    transform: translate3d(320px, 0px, 0px) !important

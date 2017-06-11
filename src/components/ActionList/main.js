@@ -3,6 +3,7 @@ import {
   SwipeoutItem,
   SwipeoutButton
 } from 'vux'
+import * as $ from 'jQuery'
 
 export default {
   name: 'ActionList',
@@ -21,6 +22,11 @@ export default {
     // cover like 'Hold On' --> 'action-hold-on'
     getStatusColorClass (status) {
       return 'action-' + status.toLowerCase().split(' ').join('-');
+    },
+    async onDeleteActionClick (action, event) {
+      hackSwipeoutItemHeight(event);
+
+      await this.updateActionProp(action, 'isDeleted', true)
     },
     async updateActionProp (action, prop, value) {
       action[prop] = value
@@ -43,4 +49,11 @@ export default {
       }, 100)
     }
   }
+}
+
+// transition动画需要先有一个style才能生效
+function hackSwipeoutItemHeight (event) {
+  let $item = $(event.target).closest('.action-item')
+  let height = $item.height()
+  $item.css('height', height + 'px')
 }
