@@ -199,7 +199,7 @@ const store = new Vuex.Store({
 
 function getLoadInses (model) {
   return async ({commit, state}) => {
-    let {data: inses} = await request.get(`${state.API}/${model}s`, {
+    let {data: inses} = await request.get(`${state.API}/${model}s?limit=0`, {
       headers: {Authorization: `Bearer ${state.login.token}`}
     })
 

@@ -55,5 +55,5 @@ export default {
 function hackSwipeoutItemHeight (event) {
   let $item = $(event.target).closest('.action-item')
   let height = $item.height()
-  $item.css('height', height + 'px')
+  $item.attr('style', `height: ${height}px;`)
 }
