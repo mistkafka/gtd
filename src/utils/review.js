@@ -42,6 +42,16 @@ export function isProjectNeedReview (project, type) {
   let lastReviewDay = project.logs
       .filter(_ => _.type === `${type} review`)
       .sort((a, b) => new Date(a.date) - new Date(b.date))[0] || {date: project.createdAt}
+
+  if (!lastReviewDay) {
+    // 特殊处理daily 跟 weekly review
+    if (type === 'every day') {
+      return true
+    } else if (type === 'every week') {
+      return true
+    }
+    lastReviewDay = {date: project.createdAt}
+  }
   lastReviewDay = new Date(lastReviewDay.date)
 
   let targetDay = REVIEW_DEADLINE_DATE[type]
