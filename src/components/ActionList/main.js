@@ -3,7 +3,6 @@ import {
   SwipeoutItem,
   SwipeoutButton
 } from 'vux'
-import * as $ from 'jQuery'
 
 export default {
   name: 'ActionList',
@@ -53,7 +52,7 @@ export default {
 
 // transition动画需要先有一个style才能生效
 function hackSwipeoutItemHeight (event) {
-  let $item = $(event.target).closest('.action-item')
-  let height = $item.height()
-  $item.attr('style', `height: ${height}px;`)
+  let item = event.target.parentElement.parentElement.parentElement
+  let height = item.clientHeight
+  item.style.height = `${height}px`
 }
