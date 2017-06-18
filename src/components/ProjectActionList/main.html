@@ -1,7 +1,7 @@
 <div class="clear-group-border-top clear-cell-linkarrow">
     <div v-if="$store.state.reviewMode" style="text-align: center;">
-        <h3>{{ `${reviewIndex} of ${reviews.length}` }}</h3>
-        <p>{{ `review ${reviewType} • ${reviewDate}` }}</p>
+        <h3>{{ `${reviewIndex} of ${reviewProjects.length}` }}</h3>
+        <p>{{ `${reviewType} • ${reviewDate}` }}</p>
     </div>
     <group v-if="!loading">
         <cell
@@ -23,8 +23,11 @@
         <tabbar-item @click.native="$router.replace(nextReview)">
             <span slot="label">Next</span>
         </tabbar-item>
-        <tabbar-item @click.native="reviewDialogShow = true">
+        <tabbar-item v-if="!isReviewed" @click.native="reviewDialogShow = true">
             <span slot="label">Mark Reviewed</span>
+        </tabbar-item>
+        <tabbar-item v-if="isReviewed">
+            <span slot="label">Reviewed</span>
         </tabbar-item>
     </tabbar>
 

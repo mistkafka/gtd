@@ -1,4 +1,4 @@
-import { mapGetters, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import { Cell, Group } from 'vux'
 
 export default {
@@ -6,11 +6,6 @@ export default {
   components: {
     Cell,
     Group
-  },
-  computed: {
-    ...mapGetters({
-      projects: 'needReviewProject'
-    })
   },
   methods: {
     registerAction () {
@@ -28,7 +23,6 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.commit('SET_REVIEW_MODE', false)
     this.registerAction()
   }
 }

@@ -1,0 +1,10 @@
+<group v-if="!$store.state.loading">
+  <cell
+    v-for="project in $store.getters.needReviewProject(reviewType)"
+    :key="project._id"
+    :link="'/project/' + project._id + '/list'"
+    :title="project.title"
+    @click.native="$store.commit('SET_REVIEW_MODE', reviewType)"
+  >
+  </cell>
+</group>

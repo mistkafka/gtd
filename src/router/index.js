@@ -15,6 +15,7 @@ import Context from '../components/ContextItem'
 import ContextActionList from '../components/ContextActionList'
 import ReviewView from '../views/ReviewView'
 import CalendarView from '../views/CalendarView'
+import ReviewProjects from '../components/ReviewProjects'
 
 export default new Router({
   mode: 'history',
@@ -33,6 +34,7 @@ export default new Router({
     { path: '/context/:id', component: Context },
     { path: '/context/:id/list', component: ContextActionList },
     { path: '/review', component: ReviewView },
+    { path: '/review/:type', component: ReviewProjects },
     { path: '/calendar', component: CalendarView },
   ]
 })

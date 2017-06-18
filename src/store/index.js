@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import vuexI18n from 'vuex-i18n'
 import request from 'axios'
 import { dateFormat } from 'vux'
+import * as reviewUtils from '../utils/review'
 
 Vue.use(Vuex)
 
@@ -41,6 +42,8 @@ const modelTpl = {
   }
 }
 
+const REVIEW_DEADLINE_DATE = reviewUtils.getReviewDeadlineDate()
+
 const store = new Vuex.Store({
   modules: {
     i18n: vuexI18n.store
@@ -66,7 +69,8 @@ const store = new Vuex.Store({
     API: process.env.API_BASEURL,
     loading: false,
     editMode: false,
-    reviewMode: false
+    reviewMode: null,
+    reviewDeadlineDate: REVIEW_DEADLINE_DATE,
   },
 
   getters: {
@@ -103,13 +107,40 @@ const store = new Vuex.Store({
 
       return rslt
     },
-    projectMap: ({projects}) => projects.reduce((map, _) => map.set(_._id, _), new Map()),
-    contextMap: ({contexts}) => contexts.reduce((map, _) => map.set(_._id, _), new Map()),
-    actionMap: ({actions}) => actions.reduce((map, _) => map.set(_._id, _), new Map()),
-    inbox: ({actions}) => actions.filter((_) => !_.project).filter((_) => !_.isDeleted),
-    projectActions: ({actions}) => (id) => actions.filter((_) => _.project === id).filter((_) => !_.isDeleted),
-    contextActions: ({actions}) => (id) => actions.filter((_) => _.context === id).filter((_) => !_.isDeleted),
-    needReviewProject: ({ projects }) => projects.filter(_ => _.reviewEvents.length)
+
+    projectMap: ({projects}) =>
+      projects
+      .reduce((map, _) => map.set(_._id, _), new Map()),
+
+    contextMap: ({contexts}) =>
+      contexts
+      .reduce((map, _) => map.set(_._id, _), new Map()),
+
+    actionMap: ({actions}) =>
+      actions
+      .reduce((map, _) => map.set(_._id, _), new Map()),
+
+    inbox: ({actions}) =>
+      actions
+      .filter((_) => !_.project)
+      .filter((_) => !_.isDeleted),
+
+    projectActions: ({actions}) => (id) =>
+      actions
+      .filter((_) => _.project === id)
+      .filter((_) => !_.isDeleted),
+
+    contextActions: ({actions}) => (id) =>
+      actions
+      .filter((_) => _.context === id)
+      .filter((_) => !_.isDeleted),
+
+    needReviewProject: ({ projects }) => (type) =>
+      projects
+      .filter(_ => _.reviewSchemas.includes(type))
+      .filter(_ => {
+        return reviewUtils.isProjectNeedReview(_, type)
+      })
   },
   mutations: {
     registerTopActions (state, actions) {
